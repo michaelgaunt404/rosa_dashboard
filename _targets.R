@@ -59,6 +59,7 @@ list(
       "data"
       ,"ROSA_FishFORWRD_Database_28Nov2022_Unprotected_mg20231218.xlsx"
     ), format = "file")
+  #data objects
   ,tar_target(data_rosa_dbase_list, upload_file_rosa(data_rosa_dbase_file))
   ,tar_target(data_current_pro,  prcss_current_proj(data_rosa_dbase_list))
   ,tar_target(data_needed_pro,  prcss_needed_proj(data_rosa_dbase_list))
@@ -69,15 +70,11 @@ list(
   ,tar_target(data_needProj_gap, pivot_needProj_gap(data_needed_pro))
   #viz_objects
   ,tar_target(viz_prj_timeline, mk_viz_prj_timeline(data_current_pro))
+  ,tar_target(viz_proj_location_tree, mk_viz_proj_location_bar(data_current_pro))
   ,tar_target(viz_tble_agg_needs_animal_cmplt, mk_tble_agg_needs_animal_cmplt(data_current_needed))
+  ,tar_target(viz_tble_agg_addrssd_gap, mk_tble_agg_addrssd_gap(data_needProj_gap))
+  ,tar_target(viz_tble_crrnt_proj_shrt, mk_tble_crrnt_proj_shrt(data_current_pro))
+  ,tar_target(viz_tble_needs_proj_shrt, mk_tble_needs_proj_shrt(data_current_needed))
+  ,tar_target(viz_tble_need_anmlgrp, mk_tble_need_anmlgrp(data_current_needed))
 
-  # tar_target(
-  #   name = data,
-  #   command = tibble(x = rnorm(100), y = rnorm(100))
-  #   # format = "feather" # efficient storage for large data frames
-  # ),
-  # tar_target(
-  #   name = model,
-  #   command = coefficients(lm(y ~ x, data = data))
-  # )
 )

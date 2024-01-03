@@ -22,10 +22,17 @@ mk_tble_agg_needs_animal_cmplt = function(data){
     temp_data %>% rename_with(gauntlet::strg_pretty_char)
     ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
     ,columns = combined_named_lists(
-      colDef_colorScales(temp_1, cols = rtrn_cols(temp_data, "research|total", exclude = T)
-                         ,colors = c("#15607A", "#FA8C00"), rev = T)
-    ),
-    columnGroups = list(
+      colDef_sticky(
+        cols = rtrn_cols(temp_data, "research|total")
+      )
+      ,colDef_colorScales(
+        temp_data
+        ,cols = rtrn_cols(
+          data = temp_data
+          ,words = "research|total"
+          ,exclude = T)
+        ,colors = c("#15607A", "#FA8C00"), rev = T))
+    ,columnGroups = list(
       colGroup(name = "Percent of Projects by Studied Animal"
                ,columns = rtrn_cols(temp_data, "research|total", exclude = T))
     ), wrap = F
