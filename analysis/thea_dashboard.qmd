@@ -1,11 +1,256 @@
 ---
-title: "thea_dashboard"
+title: "ROSA Project Tracker"
+# author: "Cobblepot Analytics"
+format: 
+  dashboard:
+    nav-buttons: [linkedin, twitter, github]
 ---
 
-## Quarto
+<!--#library set-up=============================================================
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#content in this section should be removed if in production - ok for dev -->
+```{r echo=FALSE, message=FALSE, msg = F, warning = F, error = F}
+library(gauntlet)
+library(magrittr)
+library(tidyverse, quietly = TRUE)
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+package_load_q = purrr::quietly(gauntlet::package_load)
+
+tmp = c("tibble", "tidyverse", "magrittr","gauntlet", "targets"
+        ,"bosFunctions"
+        ,"reactable", "reactablefmtr", "crosstalk", "plotly", "bslib","bsicons", "htmltools") %>% 
+  package_load_q()
+```
+
+<!--#source helpers/utilities===================================================
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#content in this section should be removed if in production - ok for dev -->
+```{r}
+# setwd(here::here())
+table_height = 500
+
+# source(here::here("code/helpers_skankey.R"))
+```
 
 ```{r}
-1 + 1
+setwd(here::here())
+targets::tar_source()
+targets::tar_load_everything()
+
+# tar_load(viz_prj_timeline)
+# tar_load(data_current_pro)
+# tar_load(data_needed_pro)
+# tar_load(data_acro_list_pro)
+# tar_load(data_def_terms_pro)
+# tar_load(data_references_pro)
+# tar_load(data_needProj_gap)
+# tar_load(data_current_needed)
+# 
+# tar_load(viz_tble_agg_needs_animal_cmplt)
 ```
+
+# Current Projects {orientation="rows" scrolling="false"}
+
+## Top Info Bar {height="15%"}
+
+::: card
+Basic introduction or brief overview of this page. Here is a link to ROSA website <https://www.rosascience.org/>.
+:::
+
+```{r}
+#| component: valuebox
+#| title: "Number of Projects"
+
+list(
+  # icon = "calendar",
+  color = "yellow",
+  value = nrow(data_current_pro)
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: "% Completed Projects"
+
+list(
+  icon = "",
+  color = "yellow",
+  value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>% 
+    paste0(., "%")
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: "Additional Metics"
+
+list(
+  icon = "",
+  color = "yellow",
+  value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>% 
+    paste0(., "%")
+)
+```
+
+## Main Body
+
+### Columm_1 {width="60%"}
+
+```{r}
+#| title: "Project Snapshot"
+viz_tble_crrnt_proj_shrt
+```
+
+```{r}
+#| title: "Projects by Location"
+viz_proj_location_tree
+```
+
+### Columm_2 {width="40%"}
+```{r}
+#| title: "Timeline: Current Projects"
+viz_prj_timeline
+```
+
+# Research Needs Gap Analysis {orientation="columns" scrolling="false"}
+
+## Column {.tabset width="50%"}
+```{r}
+#| title: Identified Needs Snapshot
+viz_tble_needs_proj_shrt
+```
+
+```{r}
+#| title: Animal Group Completion Rate
+viz_tble_need_anmlgrp
+```
+
+## Column {width="50%"}
+
+### Row {height="40%"}
+
+```{r}
+viz_tble_agg_addrssd_gap
+```
+
+### Row {height="60%"}
+
+```{r}
+viz_tble_agg_needs_animal_cmplt
+```
+
+# Raw Data 
+
+## {.tabset}
+
+```{r}
+#| title: Current Projects
+
+id = "current_projects"
+reactable(
+  data_current_pro %>% rename_with(strg_pretty_char)
+  ,columns = combined_named_lists(
+    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+    colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+    ,colDef_sticky(col = "Research Project Id Number", side = "left"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = F
+  ,elementId = id
+) %>% 
+  rctble_format_table() %>% 
+  rctble_add_download(., id = id)
+```
+
+```{r}
+#| title: Identified Needed Projects 
+
+id = "project_needs"
+reactable(
+  data_needed_pro %>% rename_with(strg_pretty_char) %>% select(!c("Count"))
+  ,columns = combined_named_lists(
+    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+    # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+    colDef_sticky(col = "Research Need Id Number", side = "left"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = F
+  ,elementId = id
+) %>% 
+  rctble_format_table() %>% 
+  rctble_add_download(., id = id)
+```
+
+```{r}
+#| title: Acronyms List
+
+id = "acronyms_list"
+reactable(
+  data_acro_list_pro %>% rename_with(strg_pretty_char)
+  # ,columns = combined_named_lists(
+    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+    # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+    # ,colDef_sticky(col = "Research Project Id Number", side = "right"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = F
+  ,elementId = id
+) %>% 
+  rctble_format_table() %>% 
+  rctble_add_download(., id = id)
+```
+
+```{r}
+#| title: Terms Definition
+
+id = "terms_definition"
+reactable(
+  data_def_terms_pro %>% rename_with(strg_pretty_char) %>% .[,c(1:3)]
+  # ,columns = combined_named_lists(
+  #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+  #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+  #   ,colDef_sticky(col = "Research Project Id Number", side = "right"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = T
+  ,elementId = id
+) %>% 
+  rctble_format_table() %>% 
+  rctble_add_download(., id = id)
+```
+
+```{r}
+#| title: References
+
+id = "references"
+reactable(
+  data_references_pro %>%  select(!c('database_notes')) %>% rename_with(strg_pretty_char) 
+  # ,columns = combined_named_lists(
+  #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+  #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+  #   ,colDef_sticky(col = "Research Project Id Number", side = "right"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = F
+  ,elementId = id
+) %>% 
+  rctble_format_table() %>% 
+  rctble_add_download(., id = id)
+```
+
+## {-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

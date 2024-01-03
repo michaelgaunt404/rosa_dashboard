@@ -69,26 +69,40 @@ proj_current %>%
     ,col = count, rnd =2)
 
 ##rough schedule====
-proj_current %>%
+# proj_current %>%
   # mutate(#across(c('project_end_year_mg', 'project_start_year_mg'), ~parse_number(.x))
   #        research_project_id_number = fct_reorder(
   #          research_project_id_number
   #          ,project_start_year, min
   #        )) %>%
+
+tar_load(data_current_pro)
+
+  temp_plot = data_current_pro %>%
   filter(!is.na(project_start_year_mg) &
            !is.na(project_end_year_mg)) %>%
-  arrange(research_project_id_number) %>%
-  mutate(research_project_id_number = fct_inorder(research_project_id_number)) %>%
-  ggplot() +
-  geom_segment(aes(
-    x = project_start_year_mg, xend = project_end_year_mg
-    ,y = research_project_id_number, yend = research_project_id_number
-    ,color = project_funding_source
-  )) +
-  geom_vline(xintercept = as.numeric(lubridate::year(Sys.Date()))) +
-  coord_cartesian(xlim = c(2015, 2030))
+  arrange(research_project_id_number)
 
 
+  temp_plot %>%
+    mutate(research_project_id_number = fct_relevel(
+      research_project_id_number
+      ,temp_plot$research_project_id_number[DescTools::OrderMixed(temp_plot$research_project_id_number, decreasing=F)])) %>%
+    mutate(label_start = str_glue("{research_project_id_number} ({project_start_year_mg} - {project_end_year_mg})\nResearch Need :{identified_research_need}\nBudget: ${gauntlet::pretty_num(as.numeric(project_budget_mg))}\nStatus: {status_of_research}")) %>%
+    plot_ly() %>%
+    add_lines(x = year(Sys.Date()), y = range(temp_plot$research_project_id_number), inherit = FALSE
+              ,line = list(color = "lightgrey", alpha = .1), showlegend = FALSE
+              ,text = "Current Year", hoverinfo = "text") %>%
+    add_segments(x = ~project_start_year_mg, xend = ~project_end_year_mg
+                 ,y = ~research_project_id_number, yend = ~research_project_id_number, showlegend = FALSE) %>%
+    add_markers(x = ~project_start_year_mg, y = ~research_project_id_number, name = "Project Start", color = I("purple")
+                ,text = ~label_start, hoverinfo = "text") %>%
+    add_markers(x = ~project_end_year_mg, y = ~research_project_id_number, name = "Project End", color = I("blue")) %>%
+    layout(
+      xaxis = list(title = ""), yaxis = list(title = "")
+      ,legend = list(orientation = 'h', xanchor = "right", x = 1
+                     ,yanchor = "center", y = 1.015)
+    )
 
 
 #identified_needs==================================================================
