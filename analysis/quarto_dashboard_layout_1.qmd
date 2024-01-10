@@ -10,12 +10,57 @@ format:
 library(tidyverse)
 library(plotly)
 library(reactable)
+library(crosstalk)
 ```
 
 ```{r}
 plot = plot_ly(data = mtcars, x = ~wt, y = ~qsec, color = ~gear)
 table = reactable(mtcars)
 ```
+
+```{r}
+plot = plot_ly(data = mtcars, x = ~wt, y = ~qsec, color = ~gear)
+mtcars_sd = SharedData$new(mtcars
+                           ,group = "mtcars_subset")
+
+mtcars_small = SharedData$new(mtcars %>% filter(hp > 160)
+                           ,group = "mtcars_subset")
+
+bscols(
+  widths = c(6,6)
+  ,
+
+plot_ly(mtcars_small, x = ~disp, y = ~hp, color = ~vs)
+
+
+,table = reactable(
+  mtcars_sd
+  ,columns = list(
+    vs = colDef(show = FALSE)
+    ,am = colDef(show = FALSE)
+    ,gear = colDef(show = FALSE)
+    ,carb = colDef(show = FALSE)
+  ), onClick = "select", selection = "multiple")
+)
+```
+
+
+
+```{r}
+
+plot_ly
+shared_df <- SharedData$new(iris)
+
+bscols(
+  widths = c(5, 5)
+  ,ggplotly(ggplot(shared_df) +
+      geom_point(aes(x = Sepal.Width, y = Sepal.Length, colour = Species)))
+  ,reactable(shared_df
+             , onClick = "select", selection = "multiple"))
+)
+
+```
+
 
 # Bills
 
