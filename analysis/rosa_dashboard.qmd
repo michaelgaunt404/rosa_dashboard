@@ -3,7 +3,13 @@ title: "Fish FORWRD Database"
 format: 
   dashboard:
     embed-resources: true
-    nav-buttons: [linkedin, twitter, github]
+    nav-buttons:
+      - icon: twitter
+        href: https://twitter.com/OffshoreScience
+      - icon: linkedin 
+        href: https://www.linkedin.com/company/responsible-offshore-science-alliance/        
+      - icon: github
+        href: https://github.com/
 ---
 
 ```{r echo=FALSE, message=FALSE, msg = F, warning = F, error = F}
@@ -48,12 +54,14 @@ font-size: small;
 
 
 ```{r}
-# setwd(here::here())
-# targets::tar_source()
-# targets::tar_load_everything()
+setwd(here::here())
+targets::tar_source()
+targets::tar_load_everything()
 ```
 
 # Welcome Page 
+
+## Row {height = "15%"}
 
 ::: {.cardSpecBig}
 Welcome to the <strong>Fish Forward Database</strong>    
@@ -63,15 +71,17 @@ Developed in Partnership by <strong>ROSA</strong> and <strong>WSP</strong>
     
 :::   
 
+## Row {height="70%"}
+
+### Column {width="60%"}
+
 ::: {.card}    
 <strong>What you can do with this Dashboard</strong><br>
-With this dashboard you can easily explore and investigate the State of Good Repair of KCM systems by a number of factors such as location or facility (any many more!).
+With this dashboard, you can easily investigate current projects and identified research needsin the Rosa database, considering various factors such as location, needs type, and more..
 
 <strong>How to use this Dashboard</strong><br>
 This dashboard is comprised of a number of tabs each with their own purpose and functionality.   
-
 Each tab contain a number of features that either help you explore page content or visuals which provide information based on user input.   
-
 All tables and plots are interactive and can be manipulated via the mouse.
 
 <strong>Tab Quick Links</strong>
@@ -88,18 +98,77 @@ All tables and plots are interactive and can be manipulated via the mouse.
 
 + Interact with raw data through user-friendly tools, and download data directly.
 
-
-
-
-
-
-
-
-
-
-
-
 :::
+
+### Column {width="15%"}
+
+```{r}
+#| component: valuebox
+#| title: "No. of Current Projects"
+
+list(
+  # icon = "calendar",
+  color = "#016FB1",
+  value = nrow(data_current_pro)
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: "No. of Unique Research \nNeed Categories"
+
+list(
+  color = "#016FB1",
+  value = length(unique(data_current_pro$identified_research_need))
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: "No. of Identified Needs"
+
+list(
+  color = "#016FB1",
+  value = nrow(data_needed_pro)
+)
+```
+
+
+### Column {width="15%"}
+
+```{r}
+#| component: valuebox
+#| title: "% Complete"
+
+list(
+  color = "#016FB1",
+  value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>%
+    paste0(., "%")
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: "No. of Unique Research \nLocations"
+
+list(
+  color = "#016FB1",
+  value = length(unique(data_current_pro$location_mg))
+)
+```
+
+```{r}
+#| component: valuebox
+#| title: "% Not Addressed"
+
+list(
+  color = "#016FB1",
+  value = (100*round(nrow(data_needed_pro[data_needed_pro$data_gap_analysis_score == "Not Addressed", ])/nrow(data_needed_pro), 2)) %>%
+    paste0(., "%")
+)
+```
+
+## Row {height="10%"}
 
 ::: {.cardSpecSmall}
   
@@ -111,62 +180,21 @@ The data presented in this database last updated: YYYY-MM-DD
 
 <!-- # Current Projects {orientation="rows" scrolling="false" #current-projects} -->
 
-<!-- ## Top Info Bar {height="15%"} -->
-
-<!-- ::: card -->
-<!-- Basic introduction or brief overview of this page. Here is a link to ROSA website <https://www.rosascience.org/>. -->
-<!-- ::: -->
-
-<!-- ```{r} -->
-<!-- #| component: valuebox -->
-<!-- #| title: "Number of Projects" -->
-
-<!-- list( -->
-<!--   # icon = "calendar", -->
-<!--   color = "yellow", -->
-<!--   value = nrow(data_current_pro) -->
-<!-- ) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- #| component: valuebox -->
-<!-- #| title: "% Completed Projects" -->
-
-<!-- list( -->
-<!--   icon = "", -->
-<!--   color = "yellow", -->
-<!--   value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>% -->
-<!--     paste0(., "%") -->
-<!-- ) -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- #| component: valuebox -->
-<!-- #| title: "Additional Metics" -->
-
-<!-- list( -->
-<!--   icon = "", -->
-<!--   color = "yellow", -->
-<!--   value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>% -->
-<!--     paste0(., "%") -->
-<!-- ) -->
-<!-- ``` -->
-
 <!-- ## Main Body -->
 
 <!-- ### Columm_1 {width="60%"} -->
 
 <!-- ```{r} -->
-<!-- #| title: "Research Need Snapshot (by category)”? " -->
+<!-- #| title: "Research Need Snapshot (by category)" -->
 <!-- viz_tble_crrnt_proj_shrt -->
 <!-- ``` -->
+
+<!-- ### Columm_2 {.tabset width="40%"} -->
 
 <!-- ```{r} -->
 <!-- #| title: "Projects by Location" -->
 <!-- viz_proj_location_tree -->
 <!-- ``` -->
-
-<!-- ### Columm_2 {width="40%"} -->
 
 <!-- ```{r} -->
 <!-- #| title: "Timeline: Current Projects" -->

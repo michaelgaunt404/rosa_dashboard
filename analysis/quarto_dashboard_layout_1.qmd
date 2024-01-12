@@ -44,8 +44,6 @@ plot_ly(mtcars_small, x = ~disp, y = ~hp, color = ~vs)
 )
 ```
 
-
-
 ```{r}
 
 plot_ly
@@ -60,7 +58,6 @@ bscols(
 )
 
 ```
-
 
 # Bills
 
