@@ -14,7 +14,8 @@ mk_tble_need_anmlgrp = function(data){
     mutate(
       total = pmap_dbl(
         select(., contains("Complete")), sum)
-      ,`%_comp.` = round(Complete/total, 2)) %>%
+      ,`%_comp.` = round(Complete/total, 2) %>%
+        replace_na(0)) %>%
     group_by(research_need_id) %>%
     mutate(
       needs_total = sum(total)
@@ -31,14 +32,15 @@ mk_tble_need_anmlgrp = function(data){
 
   tmp_table = reactable(
     tmp %>%
+      # mutate(across(contains("%"), ~replace_na(.x, 0))) %>%
       rename_with(gauntlet::strg_pretty_char) %>%
       dplyr::select(!c(`Not Complete`))
     ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
     ,columns = combined_named_lists(
-      colDef_minwidth(cols = rtrn_cols(tmp, "research|animal"), width = 80)
+      colDef_minwidth(cols = rtrn_cols(tmp, "research|animal"), width = 100)
       ,colDef_sticky(cols = rtrn_cols(tmp, "research|animal"))
-      # ,colDef_colorScales(tmp, cols = rtrn_cols(tmp, "total", exclude = F)
-      #                    ,colors = c("#15607A", "#FA8C00"), rev = T)
+    #   ,colDef_colorScales(tmp, cols = rtrn_cols(tmp, "%", exclude = F)
+    #                      ,colors = c("#15607A", "#FA8C00"), rev = T)
     )
     ,columnGroups = list(
       colGroup(name = "Research Need/Animal Grp"

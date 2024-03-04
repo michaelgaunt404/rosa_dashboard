@@ -9,7 +9,7 @@ format:
       - icon: linkedin 
         href: https://www.linkedin.com/company/responsible-offshore-science-alliance/        
       - icon: github
-        href: https://github.com/
+        href: https://github.com/michaelgaunt404/rosa_dashboard/tree/master
 ---
 
 ```{r echo=FALSE, message=FALSE, msg = F, warning = F, error = F}
@@ -65,7 +65,6 @@ targets::tar_load_everything()
 
 ::: {.cardSpecBig}
 Welcome to the <strong>Fish Forward Database</strong>    
-
 Developed in Partnership by <strong>ROSA</strong> and <strong>WSP</strong>   
 ![](../docs/rosa_logo.jpg){width="10%"}  ![](../docs/img-png-wsp-black.png){width="5%"}
     
@@ -77,7 +76,7 @@ Developed in Partnership by <strong>ROSA</strong> and <strong>WSP</strong>
 
 ::: {.card}    
 <strong>What you can do with this Dashboard</strong><br>
-With this dashboard, you can easily investigate current projects and identified research needsin the Rosa database, considering various factors such as location, needs type, and more..
+With this dashboard, you can easily investigate current projects and identified research needs in the Rosa database, considering various factors such as location, needs type, and more..
 
 <strong>How to use this Dashboard</strong><br>
 This dashboard is comprised of a number of tabs each with their own purpose and functionality.   
@@ -103,67 +102,53 @@ All tables and plots are interactive and can be manipulated via the mouse.
 ### Column {width="15%"}
 
 ```{r}
-#| component: valuebox
-#| title: "No. of Current Projects"
-
-list(
-  # icon = "calendar",
-  color = "#016FB1",
-  value = nrow(data_current_pro)
+bslib::value_box(
+  title = "Total Project Count"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = nrow(data_current_pro)
 )
 ```
 
 ```{r}
-#| component: valuebox
-#| title: "No. of Unique Research \nNeed Categories"
-
-list(
-  color = "#016FB1",
-  value = length(unique(data_current_pro$identified_research_need))
+bslib::value_box(
+  title = "Total Unique Research Categories"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = length(unique(data_current_pro$identified_research_need))
 )
 ```
 
 ```{r}
-#| component: valuebox
-#| title: "No. of Identified Needs"
-
-list(
-  color = "#016FB1",
-  value = nrow(data_needed_pro)
+bslib::value_box(
+  title = "Total Identified Needs"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = nrow(data_needed_pro)
 )
 ```
-
 
 ### Column {width="15%"}
 
 ```{r}
-#| component: valuebox
-#| title: "% Complete"
-
-list(
-  color = "#016FB1",
-  value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>%
+bslib::value_box(
+  title = "% Complete"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>%
     paste0(., "%")
 )
 ```
 
 ```{r}
-#| component: valuebox
-#| title: "No. of Unique Research \nLocations"
-
-list(
-  color = "#016FB1",
-  value = length(unique(data_current_pro$location_mg))
+bslib::value_box(
+  title = "Total Unique Research \nLocations"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = length(unique(data_current_pro$location_km))
 )
 ```
 
 ```{r}
-#| component: valuebox
-#| title: "% Not Addressed"
-
-list(
-  color = "#016FB1",
-  value = (100*round(nrow(data_needed_pro[data_needed_pro$data_gap_analysis_score == "Not Addressed", ])/nrow(data_needed_pro), 2)) %>%
+bslib::value_box(
+  title = "% Not Addressed"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = (100*round(nrow(data_needed_pro[data_needed_pro$data_gap_analysis_score == "Not Addressed", ])/nrow(data_needed_pro), 2)) %>%
     paste0(., "%")
 )
 ```
@@ -178,149 +163,171 @@ The data presented in this database last updated: YYYY-MM-DD
    
 :::
 
-<!-- # Current Projects {orientation="rows" scrolling="false" #current-projects} -->
+# Current Projects {orientation="rows" scrolling="false" #current-projects}
 
-<!-- ## Main Body -->
+## Main Body
 
-<!-- ### Columm_1 {width="60%"} -->
+### Columm_1 {width="60%"}
 
-<!-- ```{r} -->
-<!-- #| title: "Research Need Snapshot (by category)" -->
-<!-- viz_tble_crrnt_proj_shrt -->
-<!-- ``` -->
+```{r}
+#| title: "Research Need Snapshot (by category)"
+viz_tble_crrnt_proj_shrt
+```
 
-<!-- ### Columm_2 {.tabset width="40%"} -->
+### Columm_2 {.tabset width="40%"}
 
-<!-- ```{r} -->
-<!-- #| title: "Projects by Location" -->
-<!-- viz_proj_location_tree -->
-<!-- ``` -->
+```{r}
+#| title: "Projects by Location"
+viz_proj_location_tree
+```
 
-<!-- ```{r} -->
-<!-- #| title: "Timeline: Current Projects" -->
-<!-- viz_prj_timeline -->
-<!-- ``` -->
+```{r}
+#| title: "Project Timelines"
+viz_prj_timeline
+```
 
-<!-- # Research Needs Gap Analysis {orientation="columns" scrolling="false" #research-needs} -->
+# Research Needs Gap Analysis {orientation="columns" scrolling="false" #research-needs}
 
-<!-- ## Column {.tabset width="50%"} -->
+## Column {.tabset width="50%"}
 
-<!-- ```{r} -->
-<!-- #| title: Identified Needs Snapshot -->
-<!-- viz_tble_needs_proj_shrt -->
-<!-- ``` -->
+```{r}
+#| title: Identified Needs Snapshot
+viz_tble_needs_proj_shrt
+```
 
-<!-- ```{r} -->
-<!-- #| title: Animal Group Completion Rate -->
-<!-- viz_tble_need_anmlgrp -->
-<!-- ``` -->
+```{r}
+#| title: Animal Group Completion Rate
+viz_tble_need_anmlgrp
+```
 
-<!-- ## Column {width="50%"} -->
+## Column {width="50%"}
 
-<!-- ### Row {height="40%"} -->
+### Row {height="45%"}
 
-<!-- ```{r} -->
-<!-- viz_tble_agg_addrssd_gap -->
-<!-- ``` -->
+### {.tabset}
 
-<!-- ### Row {height="60%"} -->
+```{r}
+#| title: Unaddressed Research Needs
+viz_viz_unaddressed_needs
+```
 
-<!-- ```{r} -->
-<!-- viz_tble_agg_needs_animal_cmplt -->
-<!-- ``` -->
+```{r}
+#| title: Research Needs Gap Table
+viz_tble_agg_addrssd_gap
+```
 
-<!-- # Data Center {#data-center} -->
+### Row {height="55%"}
 
-<!-- ##  {.tabset} -->
+```{r}
+viz_tble_agg_needs_animal_cmplt
+```
 
-<!-- ```{r} -->
-<!-- #| title: Current Projects -->
+# Data Center {#data-center}
 
-<!-- id = "current_projects" -->
-<!-- reactable( -->
-<!--   data_current_pro %>% rename_with(strg_pretty_char) -->
-<!--   ,columns = combined_named_lists( -->
-<!--     # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T) -->
-<!--     colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site") -->
-<!--     ,colDef_sticky(col = "Research Project Id Number", side = "left")) -->
-<!--   ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold")) -->
-<!--   ,wrap = F -->
-<!--   ,elementId = id -->
-<!-- ) %>% -->
-<!--   rctble_format_table() %>% -->
-<!--   rctble_add_download(., id = id) -->
-<!-- ``` -->
+##  {.tabset}
 
-<!-- ```{r} -->
-<!-- #| title: Identified Needed Projects -->
+```{r}
+#| title: Current Projects
 
-<!-- id = "project_needs" -->
-<!-- reactable( -->
-<!--   data_needed_pro %>% rename_with(strg_pretty_char) %>% select(!c("Count")) -->
-<!--   ,columns = combined_named_lists( -->
-<!--     # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T) -->
-<!--     # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site") -->
-<!--     colDef_sticky(col = "Research Need Id Number", side = "left")) -->
-<!--   ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold")) -->
-<!--   ,wrap = F -->
-<!--   ,elementId = id -->
-<!-- ) %>% -->
-<!--   rctble_format_table() %>% -->
-<!--   rctble_add_download(., id = id) -->
-<!-- ``` -->
+data_current_pro  = data_current_pro %>% 
+  select(!c(location_mg, location, project_budget, project_start_year, project_end_year, count)) %>%  
+  rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) 
 
-<!-- ```{r} -->
-<!-- #| title: Acronyms List -->
+id = "current_projects"
+reactable(
+  data_current_pro %>% rename_with(strg_pretty_char)
+  ,columns = combined_named_lists(
+    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+    colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+    ,colDef_minwidth(cols = rtrn_cols(data_current_pro, "objectives|notes|method"), width = 600)
+    ,colDef_minwidth(cols = rtrn_cols(data_current_pro, "title|partner_ent"), width = 200)
+    ,colDef_sticky(col = "Research Project Id Number", side = "left"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = T
+  ,elementId = id
+) %>%
+  rctble_format_table() %>%
+  rctble_add_download(., id = id)
+```
 
-<!-- id = "acronyms_list" -->
-<!-- reactable( -->
-<!--   data_acro_list_pro %>% rename_with(strg_pretty_char) -->
-<!--   # ,columns = combined_named_lists( -->
-<!--     # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T) -->
-<!--     # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site") -->
-<!--     # ,colDef_sticky(col = "Research Project Id Number", side = "right")) -->
-<!--   ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold")) -->
-<!--   ,wrap = F -->
-<!--   ,elementId = id -->
-<!-- ) %>% -->
-<!--   rctble_format_table() %>% -->
-<!--   rctble_add_download(., id = id) -->
-<!-- ``` -->
+```{r}
+#| title: Identified Needed Projects
 
-<!-- ```{r} -->
-<!-- #| title: Terms Definition -->
+data_needed_pro = data_needed_pro %>% 
+  select(!c(existing_project_addressing_need_id_number, data_gap_analysis_score, count)) %>%  
+  rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) 
 
-<!-- id = "terms_definition" -->
-<!-- reactable( -->
-<!--   data_def_terms_pro %>% rename_with(strg_pretty_char) %>% .[,c(1:3)] -->
-<!--   # ,columns = combined_named_lists( -->
-<!--   #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T) -->
-<!--   #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site") -->
-<!--   #   ,colDef_sticky(col = "Research Project Id Number", side = "right")) -->
-<!--   ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold")) -->
-<!--   ,wrap = T -->
-<!--   ,elementId = id -->
-<!-- ) %>% -->
-<!--   rctble_format_table() %>% -->
-<!--   rctble_add_download(., id = id) -->
-<!-- ``` -->
 
-<!-- ```{r} -->
-<!-- #| title: References -->
+id = "project_needs"
+reactable(
+  data_needed_pro %>% rename_with(strg_pretty_char)
+  ,columns = combined_named_lists(
+    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+    # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+    colDef_sticky(col = "Research Need Id Number", side = "left")
+    ,colDef_minwidth(cols = rtrn_cols(data_needed_pro, "addressing|status"), width = 200)
+    ,colDef_minwidth(cols = rtrn_cols(data_needed_pro, "summary|explanation"), width = 600)
+  )
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = T
+  ,elementId = id
+) %>%
+  rctble_format_table() %>%
+  rctble_add_download(., id = id)
+```
 
-<!-- id = "references" -->
-<!-- reactable( -->
-<!--   data_references_pro %>%  select(!c('database_notes')) %>% rename_with(strg_pretty_char) -->
-<!--   # ,columns = combined_named_lists( -->
-<!--   #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T) -->
-<!--   #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site") -->
-<!--   #   ,colDef_sticky(col = "Research Project Id Number", side = "right")) -->
-<!--   ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold")) -->
-<!--   ,wrap = F -->
-<!--   ,elementId = id -->
-<!-- ) %>% -->
-<!--   rctble_format_table() %>% -->
-<!--   rctble_add_download(., id = id) -->
-<!-- ``` -->
+```{r}
+#| title: Acronyms List
 
-<!-- ##  {.unnumbered} -->
+id = "acronyms_list"
+reactable(
+  data_acro_list_pro %>% rename_with(strg_pretty_char)
+  # ,columns = combined_named_lists(
+    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+    # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+    # ,colDef_sticky(col = "Research Project Id Number", side = "right"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = F
+  ,elementId = id
+) %>%
+  rctble_format_table() %>%
+  rctble_add_download(., id = id)
+```
+
+```{r}
+#| title: Terms Definition
+
+id = "terms_definition"
+reactable(
+  data_def_terms_pro %>% rename_with(strg_pretty_char) %>% .[,c(1:3)]
+  # ,columns = combined_named_lists(
+  #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+  #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+  #   ,colDef_sticky(col = "Research Project Id Number", side = "right"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = T
+  ,elementId = id
+) %>%
+  rctble_format_table() %>%
+  rctble_add_download(., id = id)
+```
+
+```{r}
+#| title: References
+
+id = "references"
+reactable(
+  data_references_pro %>%  select(!c('database_notes')) %>% rename_with(strg_pretty_char)
+  # ,columns = combined_named_lists(
+  #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+  #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
+  #   ,colDef_sticky(col = "Research Project Id Number", side = "right"))
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+  ,wrap = F
+  ,elementId = id
+) %>%
+  rctble_format_table() %>%
+  rctble_add_download(., id = id)
+```
+
+##  {.unnumbered}

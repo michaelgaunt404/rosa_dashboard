@@ -3,6 +3,7 @@ mk_viz_proj_location_bar = function(data, filter = T){
   # data = tar_read(data_current_pro)
 
   if (filter){
+    print("true")
     temp_data = data %>%
       filter(!is.na(project_start_year_mg) &
                !is.na(project_end_year_mg)) %>%
@@ -13,25 +14,24 @@ mk_viz_proj_location_bar = function(data, filter = T){
   }
 
   temp_data = data
-    # filter(location_mg == "NY")
 
   test_1 = temp_data %>%
     count_percent_zscore(
-      grp_c = c("location_mg", "identified_research_need")
-      ,grp_p = c("location_mg")
+      grp_c = c("location_km", "identified_research_need")
+      ,grp_p = c("location_km")
       ,col = count, rnd = 4
     ) %>%
-    rename(parent = location_mg, label = identified_research_need)
+    rename(parent = location_km, label = identified_research_need)
 
 
 
   test_2 =  temp_data %>%
     count_percent_zscore(
-      grp_c = c("location_mg")
+      grp_c = c("location_km")
       ,grp_p = c()
       ,col = count, rnd = 4
     ) %>%
-    rename(label = location_mg)
+    rename(label = location_km)
 
   temp_data = bind_rows(
     test_1

@@ -4,26 +4,29 @@ mk_tble_agg_needs_animal_cmplt = function(data){
 
   temp_data = data %>%
     count_percent_zscore(
-      grp_c = c("research_category", "research_need_id", "animal_group")
-      ,grp_p = c("research_category", "research_need_id")
+      grp_c = c("research_need_id", "research_need", "research_need_crrnt")
+      ,grp_p = c("research_need_id", "research_need")
       ,col = count
       ,rnd = 2
     ) %>%
-    group_by(research_category) %>%
-    complete(research_need_id, animal_group, fill = list(count = 0, percent = 0)) %>%
-    ungroup() %>%
     group_by(research_need_id) %>%
-    mutate(total = sum(count)) %>%
-    ungroup() %>%
+    mutate(total_projects = sum(count)) %>% ungroup() %>%
     select(!c(count)) %>%
-    pivot_wider(names_from = animal_group, values_from = percent)
+    pivot_wider(names_from = research_need_crrnt, values_from = percent)  %>%
+    rename_with(gauntlet::strg_pretty_char)
+
+  temp_data = temp_data %>%
+    mutate(across(
+      c(rtrn_cols(temp_data, words = "Research Need|Total", pretty = FALSE, exclude = T, sort = T))
+      ,~replace_na(.x, 0)
+    ))
 
   temp_table = reactable(
-    temp_data %>% rename_with(gauntlet::strg_pretty_char)
+    temp_data
     ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
     ,columns = combined_named_lists(
       colDef_sticky(
-        cols = rtrn_cols(temp_data, "research|total")
+        cols = rtrn_cols(temp_data, "Research Need|Total")
       )
       ,colDef_colorScales(
         temp_data
@@ -33,8 +36,8 @@ mk_tble_agg_needs_animal_cmplt = function(data){
           ,exclude = T)
         ,colors = c("#15607A", "#FA8C00"), rev = T))
     ,columnGroups = list(
-      colGroup(name = "Percent of Projects by Studied Animal"
-               ,columns = rtrn_cols(temp_data, "research|total", exclude = T))
+      colGroup(name = "Percent of Existing Project Research Needs"
+               ,columns = rtrn_cols(temp_data, "Research Need|Total", exclude = T))
     ), wrap = F
   ) %>%
     rctble_format_table()
@@ -42,3 +45,11 @@ mk_tble_agg_needs_animal_cmplt = function(data){
   return(temp_table)
 
 }
+
+
+
+
+
+
+
+

@@ -57,7 +57,7 @@ list(
     data_rosa_dbase_file
     ,here::here(
       "data"
-      ,"ROSA_FishFORWRD_Database_28Nov2022_Unprotected_mg20231218.xlsx"
+      ,"ROSA_FishFORWRD_Database_28Nov2022_Unprotected_mg20240111.xlsx"
     ), format = "file")
   #data objects
   ,tar_target(data_rosa_dbase_list, upload_file_rosa(data_rosa_dbase_file))
@@ -70,11 +70,12 @@ list(
   ,tar_target(data_needProj_gap, pivot_needProj_gap(data_needed_pro))
   #viz_objects
   ,tar_target(viz_prj_timeline, mk_viz_prj_timeline(data_current_pro))
-  ,tar_target(viz_proj_location_tree, mk_viz_proj_location_bar(data_current_pro))
+  ,tar_target(viz_proj_location_tree, mk_viz_proj_location_bar(data_current_pro, filter = F))
   ,tar_target(viz_tble_agg_needs_animal_cmplt, mk_tble_agg_needs_animal_cmplt(data_current_needed))
   ,tar_target(viz_tble_agg_addrssd_gap, mk_tble_agg_addrssd_gap(data_needProj_gap))
   ,tar_target(viz_tble_crrnt_proj_shrt, mk_tble_crrnt_proj_shrt(data_current_pro))
   ,tar_target(viz_tble_needs_proj_shrt, mk_tble_needs_proj_shrt(data_current_needed))
   ,tar_target(viz_tble_need_anmlgrp, mk_tble_need_anmlgrp(data_current_needed))
+  ,tar_target(viz_viz_unaddressed_needs, mk_viz_unaddressed_needs(data_needProj_gap))
 
 )
