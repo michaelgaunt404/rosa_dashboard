@@ -1,4 +1,5 @@
-rtrn_cols = function(data, words, pretty = T, exclude = F, sort = T){
+rtrn_cols = function(data, words, pretty = F, exclude = F, sort = T){
+
   colnames = colnames(data)
 
   if (!exclude){

@@ -3,29 +3,35 @@ mk_tble_crrnt_proj_shrt = function(data){
   # data = tar_read(data_current_pro)
 
   tmp_data = data %>%
-    dplyr::select(
-      research_project_id_number, project_title, research_category, identified_research_need
-      ,partner_entities, temporal_scale_of_project)
-
-  tmp_data = tmp_data %>%
-    mutate(
-      across(all_of(rtrn_cols(tmp_data, words = "project_title", exclude = T, pretty = F))
-             ,~strg_wrap_html(.x, width = 5, whtspace_only = F))
-      # ,across(project_title
-      #        ,~strg_wrap_html(.x, width = 20, whtspace_only = F))
-      ) %>%
-    rename_with(strg_pretty_char)
-
-    temp_table = reactable(
-      tmp_data
-      ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
-      ,columns = combined_named_lists(
-        colDef_html(cols = colnames(tmp_data))
-        ,colDef_minwidth(cols = rtrn_cols(tmp_data, "itle"), width = 170)
-        ,colDef_minwidth(cols = rtrn_cols(tmp_data, "Research Need"), width = 110)
-      ), wrap = T
+    #original
+    # dplyr::select(research_project_id_number, project_title, research_category, identified_research_need,partner_entities, temporal_scale_of_project)
+    #new
+    dplyr::select(research_project_id_number
+                  ,project_title
+                  ,animal_group
+                  ,location_mg
+                  ,status_of_research
+                  ,pi_name
+                  ,pi_contact_info
+                  ,project_website
     ) %>%
-      rctble_format_table()
+    rename_with(~str_remove(.x, "_mg"))
+
+  id = "id_tble_crrnt_proj_shrt"
+  temp_table = reactable(
+    tmp_data
+    ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
+    ,columns = combined_named_lists(
+      colDef_html(cols = colnames(tmp_data))
+      ,colDef_sticky(cols = "research_project_id_number")
+      ,colDef_colWidth_robust(cols = rtrn_cols(tmp_data, "itle"), minWidth = 250)
+      # ,colDef_minwidth(cols = rtrn_cols(tmp_data, "Research Need"), width = 110)
+      ,colDef_mailto(cols = "pi_name", col_email = "pi_contact_info", tmp_data)
+      ,colDef_urlLink_spec(cols = "research_project_id_number", col_url = "project_website", tmp_data)
+      ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "title", exclude = T), id = id)
+    ), wrap = T, elementId = id
+  ) %>%
+    rctble_format_table()
 
 
   return(temp_table)

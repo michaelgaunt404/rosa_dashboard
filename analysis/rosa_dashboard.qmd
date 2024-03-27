@@ -3,13 +3,7 @@ title: "Fish FORWRD Database"
 format: 
   dashboard:
     embed-resources: true
-    nav-buttons:
-      - icon: twitter
-        href: https://twitter.com/OffshoreScience
-      - icon: linkedin 
-        href: https://www.linkedin.com/company/responsible-offshore-science-alliance/        
-      - icon: github
-        href: https://github.com/michaelgaunt404/rosa_dashboard/tree/master
+
 ---
 
 ```{r echo=FALSE, message=FALSE, msg = F, warning = F, error = F}
@@ -64,9 +58,9 @@ targets::tar_load_everything()
 ## Row {height = "15%"}
 
 ::: {.cardSpecBig}
-Welcome to the <strong>Fish Forward Database</strong>    
-Developed in Partnership by <strong>ROSA</strong> and <strong>WSP</strong>   
-![](../docs/rosa_logo.jpg){width="10%"}  ![](../docs/img-png-wsp-black.png){width="5%"}
+Welcome to the <strong>Fish FORWRD Database</strong>    
+Developed in Partnership by <strong>ROSA</strong>, <strong>Attentive Energy</strong>, and <strong>WSP</strong>   
+![](../docs/rosa_logo.jpg){width="10%"} ![](../docs/ae_log_sm.png){width="10%"}  ![](../docs/img-png-wsp-black.png){width="5%"} 
     
 :::   
 
@@ -76,7 +70,7 @@ Developed in Partnership by <strong>ROSA</strong> and <strong>WSP</strong>
 
 ::: {.card}    
 <strong>What you can do with this Dashboard</strong><br>
-With this dashboard, you can easily investigate current projects and identified research needs in the Rosa database, considering various factors such as location, needs type, and more..
+With this dashboard, you can easily investigate current projects and identified research needs in the ROSA database, considering various factors such as location, needs type, and more..
 
 <strong>How to use this Dashboard</strong><br>
 This dashboard is comprised of a number of tabs each with their own purpose and functionality.   
@@ -85,17 +79,25 @@ All tables and plots are interactive and can be manipulated via the mouse.
 
 <strong>Tab Quick Links</strong>
 
-[Current Projects](#current-projects)<br>
+<strong>[Current Projects](#current-projects)</strong><br>
 
 + View ongoing projects with detailed attributes, timelines, and geographical locations.
 
-[Research Needs Gap Analysis](#research-needs)<br>
+<strong>[Research Needs Gap Analysis](#research-needs)</strong><br>
 
 + Identify research gaps, explore unaddressed needs linked to ongoing projects.
 
-[Data Center](#data-center)<br>
+<strong>[View Database](#data-center)</strong><br>
 
 + Interact with raw data through user-friendly tools, and download data directly.
+
+<strong>Additional Resources</strong><br>
+
+See the links provided below for additional resources. 
+
++ [RWSC Database](https://database.rwsc.org/)
++ [Atlantic Offshore Wind Environmental Research Recommendations](https://tethys.pnnl.gov/atlantic-offshore-wind-environmental-research-recommendations)
++ [Fish FORWRD Data Entry From](https://docs.google.com/forms/d/e/1FAIpQLSeKWFSwyjctrozrUmYmY3Ff4Bc6A-gc-IfqQ7YGSt-hP1oWrw/viewform)
 
 :::
 
@@ -129,7 +131,7 @@ bslib::value_box(
 
 ```{r}
 bslib::value_box(
-  title = "% Complete"
+  title = "% Complete or Near Complete"
   ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
   ,value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>%
     paste0(., "%")
@@ -191,20 +193,16 @@ viz_prj_timeline
 ## Column {.tabset width="50%"}
 
 ```{r}
-#| title: Identified Needs Snapshot
+#| title: "Identified Needs Snapshot"
 viz_tble_needs_proj_shrt
 ```
 
 ```{r}
-#| title: Animal Group Completion Rate
+#| title: "Animal Group Completion Rate"
 viz_tble_need_anmlgrp
 ```
 
-## Column {width="50%"}
-
-### Row {height="45%"}
-
-### {.tabset}
+## Column {.tabset width="50%"}
 
 ```{r}
 #| title: Unaddressed Research Needs
@@ -216,12 +214,6 @@ viz_viz_unaddressed_needs
 viz_tble_agg_addrssd_gap
 ```
 
-### Row {height="55%"}
-
-```{r}
-viz_tble_agg_needs_animal_cmplt
-```
-
 # Data Center {#data-center}
 
 ##  {.tabset}
@@ -229,46 +221,58 @@ viz_tble_agg_needs_animal_cmplt
 ```{r}
 #| title: Current Projects
 
-data_current_pro  = data_current_pro %>% 
+tmp_data  = data_current_pro %>% 
   select(!c(location_mg, location, project_budget, project_start_year, project_end_year, count)) %>%  
   rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) 
 
 id = "current_projects"
 reactable(
-  data_current_pro %>% rename_with(strg_pretty_char)
+  tmp_data 
   ,columns = combined_named_lists(
-    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
-    colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
-    ,colDef_minwidth(cols = rtrn_cols(data_current_pro, "objectives|notes|method"), width = 600)
-    ,colDef_minwidth(cols = rtrn_cols(data_current_pro, "title|partner_ent"), width = 200)
-    ,colDef_sticky(col = "Research Project Id Number", side = "left"))
-  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
-  ,wrap = T
-  ,elementId = id
+    colDef_sticky(col = "research_project_id_number", side = "left")
+    ,colDef_urlLink(cols = rtrn_cols(tmp_data, "_website"), link_text = "Link to site")
+    ,colDef_mailto(
+      cols = rtrn_cols(tmp_data, "pi_name")
+      ,col_email = rtrn_cols(tmp_data, "pi_contact_info")
+      ,data = tmp_data)
+    ,colDef_colWidth_robust(
+      cols = rtrn_cols(tmp_data, "project_objectives|notes|methodology"), minWidth = 600)
+    ,colDef_colWidth_robust(
+      cols = rtrn_cols(tmp_data, "research_category"), minWidth = 100)
+    ,colDef_colWidth_robust(
+      cols = rtrn_cols(tmp_data
+                       ,"title|partner_ent|funding|temporal|windfarm|identified|gis"), minWidth = 250)
+    ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "objectives|method|notes", exclude = T)
+                          ,id = id)
+  )
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold")
+                          ,minWidth = 150
+                          ,header = mk_special_header)
+  ,wrap = T, elementId = id
 ) %>%
   rctble_format_table() %>%
   rctble_add_download(., id = id)
 ```
 
 ```{r}
-#| title: Identified Needed Projects
+#| title: Research Priorities
 
-data_needed_pro = data_needed_pro %>% 
+tmp_data = data_needed_pro %>% 
   select(!c(existing_project_addressing_need_id_number, data_gap_analysis_score, count)) %>%  
   rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) 
 
-
 id = "project_needs"
 reactable(
-  data_needed_pro %>% rename_with(strg_pretty_char)
+  data_needed_pro %>% select(!count)
   ,columns = combined_named_lists(
-    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
-    # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
-    colDef_sticky(col = "Research Need Id Number", side = "left")
-    ,colDef_minwidth(cols = rtrn_cols(data_needed_pro, "addressing|status"), width = 200)
-    ,colDef_minwidth(cols = rtrn_cols(data_needed_pro, "summary|explanation"), width = 600)
-  )
-  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+    colDef_sticky(col = "research_need_id_number", side = "left")
+    ,colDef_minwidth(cols = rtrn_cols(tmp_data, "addressing|status"), width = 200)
+    ,colDef_minwidth(cols = rtrn_cols(tmp_data, "summary|explanation|notes"), width = 600)
+    ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "summary|status|addressing|explanation|notes", exclude = T)
+                          ,id = id)
+  ),defaultColDef = colDef(footerStyle = list(fontWeight = "bold")
+                           ,minWidth = 150
+                           ,header = mk_special_header)
   ,wrap = T
   ,elementId = id
 ) %>%
@@ -280,15 +284,13 @@ reactable(
 #| title: Acronyms List
 
 id = "acronyms_list"
+
 reactable(
-  data_acro_list_pro %>% rename_with(strg_pretty_char)
-  # ,columns = combined_named_lists(
-    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
-    # colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
-    # ,colDef_sticky(col = "Research Project Id Number", side = "right"))
-  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
-  ,wrap = F
-  ,elementId = id
+  data_acro_list_pro
+  ,columns = combined_named_lists(
+  colDef_colWidth_robust(cols = "Acronym", maxWidth = 300)
+  ),defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
+  ,wrap = F, elementId = id
 ) %>%
   rctble_format_table() %>%
   rctble_add_download(., id = id)
@@ -299,14 +301,11 @@ reactable(
 
 id = "terms_definition"
 reactable(
-  data_def_terms_pro %>% rename_with(strg_pretty_char) %>% .[,c(1:3)]
-  # ,columns = combined_named_lists(
-  #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
-  #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
-  #   ,colDef_sticky(col = "Research Project Id Number", side = "right"))
-  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
-  ,wrap = T
-  ,elementId = id
+  data_def_terms_pro %>% .[,c(1:3)]
+  ,columns = combined_named_lists(
+    colDef_colWidth_robust(cols = rtrn_cols(data_def_terms_pro, "erm"), maxWidth = 300)
+  ), defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
+  ,wrap = T, elementId = id
 ) %>%
   rctble_format_table() %>%
   rctble_add_download(., id = id)
@@ -317,13 +316,17 @@ reactable(
 
 id = "references"
 reactable(
-  data_references_pro %>%  select(!c('database_notes')) %>% rename_with(strg_pretty_char)
-  # ,columns = combined_named_lists(
-  #   # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
-  #   colDef_urlLink(cols = rtrn_cols(data_current_pro, "website"), link_text = "Link to site")
-  #   ,colDef_sticky(col = "Research Project Id Number", side = "right"))
-  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
-  ,wrap = F
+  data_references_pro %>%  select(!c('database_notes'))
+  ,columns = combined_named_lists(
+    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
+    colDef_urlLink(cols = rtrn_cols(data_references_pro, "Link"), link_text = "Link to site")
+    ,colDef_colWidth_robust(cols = rtrn_cols(data_references_pro, "Full Citation|Notes")
+                            ,wrap = T, minWidth = 400)
+    ,colDef_sticky(col = rtrn_cols(data_references_pro, "Reference ID")
+                   ,side = "right")
+    )
+  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
+  ,wrap = T
   ,elementId = id
 ) %>%
   rctble_format_table() %>%

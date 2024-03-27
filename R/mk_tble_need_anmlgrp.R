@@ -1,7 +1,7 @@
 mk_tble_need_anmlgrp = function(data){
   # data = tar_read(data_current_needed)
 
-  tmp = data %>%
+  tmp_data = data %>%
     count_percent_zscore(
       grp_c = c("research_category", "research_need_id", "completeion_status", "animal_group")
       ,grp_p = c("research_category", "research_need_id", "animal_group")
@@ -26,28 +26,31 @@ mk_tble_need_anmlgrp = function(data){
     select("research_category", "research_need_id", "animal_group", "Not Complete"
            ,"Complete", "total", "%_comp."
            ,"needs_completed","needs_total", "needs_%_comp.")
-  # mutate(label = str_glue("{research_need_id}\nTotal Projects: {total_projects}\nTotal Comp: {total_completed_projects} ({100*`total_completed_percent`}%)\nTotal (animal grp): {animal_group_total}\nTotal Comp (animal grp) ({100*animal_group_total_percent}%)")) #%>%
-  # # filter(research_need_id == "RN-83")
 
-
+  id = "id_tble_need_anmlgrp"
   tmp_table = reactable(
-    tmp %>%
-      # mutate(across(contains("%"), ~replace_na(.x, 0))) %>%
-      rename_with(gauntlet::strg_pretty_char) %>%
-      dplyr::select(!c(`Not Complete`))
-    ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+    tmp_data %>%
+      dplyr::select(!c(`Not Complete`, contains("%")))
+    ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
     ,columns = combined_named_lists(
-      colDef_minwidth(cols = rtrn_cols(tmp, "research|animal"), width = 100)
-      ,colDef_sticky(cols = rtrn_cols(tmp, "research|animal"))
-    #   ,colDef_colorScales(tmp, cols = rtrn_cols(tmp, "%", exclude = F)
-    #                      ,colors = c("#15607A", "#FA8C00"), rev = T)
+      colDef_minwidth(cols = rtrn_cols(tmp_data, "research|animal"), width = 100)
+      ,colDef_sticky(cols = rtrn_cols(tmp_data, "research|animal"))
+      ,colDef_colWidth_robust(cols = rtrn_cols(tmp_data, "animal"), minWidth = 150)
+      ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "animal|Com|total|needs_completed|needs_total ", exclude = F), id = id)
+      #   ,colDef_colorScales(tmp, cols = rtrn_cols(tmp, "%", exclude = F)
+      #                      ,colors = c("#15607A", "#FA8C00"), rev = T)
     )
     ,columnGroups = list(
       colGroup(name = "Research Need/Animal Grp"
-               ,columns = c('Complete', 'Total', '% Comp.'))
+               ,columns = c('Complete', 'total'
+                            #, '%_comp.'
+               ))
       ,colGroup(name = "Research Need"
-                ,columns = c("Needs Completed", "Needs Total", "Needs % Comp."))
-    ), wrap = T
+                ,columns = c("needs_completed", "needs_total"
+                             #, "needs_%_comp."
+                ))
+    )
+    ,wrap = T, elementId = id
   ) %>%
     rctble_format_table()
 

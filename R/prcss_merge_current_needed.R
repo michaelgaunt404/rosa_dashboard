@@ -25,7 +25,7 @@ prcss_merge_current_needed = function(projects_needed
               dplyr::select(research_project_id_number
                      # ,research_category_crrnt = research_category
                      ,research_need_crrnt = identified_research_need
-                     ,location_km, partner_entities, animal_group, status_of_research)
+                     ,location_km, partner_entities, animal_group, status_of_research, project_website)
             ,by.x = "current_projects"
             ,by.y = "research_project_id_number"
       ) %>%

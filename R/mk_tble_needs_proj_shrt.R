@@ -5,7 +5,7 @@ mk_tble_needs_proj_shrt = function(data){
   tmp_data = data %>%
     dplyr::select(
       research_need_id, current_projects, location, research_need_crrnt
-      ,animal_group, status_of_research, partner_entities) %>%
+      ,animal_group, status_of_research, partner_entities, project_website) %>%
     rename(existing_project_id = current_projects
            ,research_need = research_need_crrnt) %>%
     arrange(research_need_id)
@@ -16,22 +16,25 @@ mk_tble_needs_proj_shrt = function(data){
              ,~strg_wrap_html(.x, width = 30, whtspace_only = F))
       # ,across(project_title
       #        ,~strg_wrap_html(.x, width = 20, whtspace_only = F))
-    ) %>%
-    rename_with(strg_pretty_char)
+    ) #%>%
+    # rename_with(strg_pretty_char) #don't need anymore
 
+  id = "id_tble_needs_proj_shrt"
   temp_table = reactable(
     tmp_data
-    ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+    ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
     ,columns = combined_named_lists(
       colDef_html(cols = colnames(tmp_data))
-      ,colDef_sticky(cols = rtrn_cols(tmp_data, "Research Need Id|Exist"))
+      ,colDef_sticky(cols = rtrn_cols(tmp_data, "research_need_id|existing_"))
+      ,colDef_urlLink_spec(cols = "existing_project_id", col_url = "project_website", tmp_data)
+      ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "id", exclude = T), id = id)
     )
     ,columnGroups = list(
       colGroup(name = "Existing Project Attributes"
-               ,columns = rtrn_cols(tmp_data, words = "Research Need Id", exclude = T)
+               ,columns = rtrn_cols(tmp_data, words = "research_need_id", exclude = T)
       )
     )
-    ,wrap = T
+    , wrap = T, elementId = id
   ) %>%
     rctble_format_table()
 
