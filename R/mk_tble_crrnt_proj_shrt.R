@@ -15,7 +15,9 @@ mk_tble_crrnt_proj_shrt = function(data){
                   ,pi_contact_info
                   ,project_website
     ) %>%
-    rename_with(~str_remove(.x, "_mg"))
+    rename_with(~str_remove(.x, "_mg")) %>%
+    mutate(research_project_id_number = strg_numeric_order(research_project_id_number, rev = F)) %>%
+    arrange(research_project_id_number)
 
   id = "id_tble_crrnt_proj_shrt"
   temp_table = reactable(

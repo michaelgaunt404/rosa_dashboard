@@ -1,5 +1,5 @@
 ---
-title: "Quarto Layout Options"
+title: "Quarto Layout Template"
 author: "Mike Gaunt"
 format: 
   dashboard:
@@ -26,36 +26,31 @@ mtcars_sd = SharedData$new(mtcars
 mtcars_small = SharedData$new(mtcars %>% filter(hp > 160)
                            ,group = "mtcars_subset")
 
-bscols(
+temp_crosstalk = bscols(
   widths = c(6,6)
-  ,
-
-plot_ly(mtcars_small, x = ~disp, y = ~hp, color = ~vs)
-
-
-,table = reactable(
-  mtcars_sd
-  ,columns = list(
-    vs = colDef(show = FALSE)
-    ,am = colDef(show = FALSE)
-    ,gear = colDef(show = FALSE)
-    ,carb = colDef(show = FALSE)
-  ), onClick = "select", selection = "multiple")
+  ,plot_ly(mtcars_small, x = ~disp, y = ~hp, color = ~vs)
+  ,table = reactable(
+    mtcars_sd
+    ,columns = list(
+      vs = colDef(show = FALSE)
+      ,am = colDef(show = FALSE)
+      ,gear = colDef(show = FALSE)
+      ,carb = colDef(show = FALSE)
+    ), onClick = "select", selection = "multiple")
 )
 ```
 
 ```{r}
 
-plot_ly
 shared_df <- SharedData$new(iris)
 
-bscols(
+item = bscols(
   widths = c(5, 5)
   ,ggplotly(ggplot(shared_df) +
       geom_point(aes(x = Sepal.Width, y = Sepal.Length, colour = Species)))
   ,reactable(shared_df
              , onClick = "select", selection = "multiple"))
-)
+
 
 ```
 
@@ -76,6 +71,7 @@ plot
 ## Column
 
 ```{r}
+#| title: "Research Needs Gap Table"
 plot
 ```
 

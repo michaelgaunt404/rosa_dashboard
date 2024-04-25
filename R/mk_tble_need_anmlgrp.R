@@ -25,7 +25,9 @@ mk_tble_need_anmlgrp = function(data){
     ungroup() %>%
     select("research_category", "research_need_id", "animal_group", "Not Complete"
            ,"Complete", "total", "%_comp."
-           ,"needs_completed","needs_total", "needs_%_comp.")
+           ,"needs_completed","needs_total", "needs_%_comp.") %>%
+    mutate(research_need_id = strg_numeric_order(research_need_id, rev = F)) %>%
+    arrange(research_need_id)
 
   id = "id_tble_need_anmlgrp"
   tmp_table = reactable(

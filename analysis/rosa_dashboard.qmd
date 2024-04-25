@@ -188,7 +188,9 @@ viz_proj_location_tree
 viz_prj_timeline
 ```
 
-# Research Needs Gap Analysis {orientation="columns" scrolling="false" #research-needs}
+# Explored Research Needs
+
+# Research Gap Analysis {orientation="columns" scrolling="false" #research-needs}
 
 ## Column {.tabset width="50%"}
 
@@ -222,8 +224,12 @@ viz_tble_agg_addrssd_gap
 #| title: Current Projects
 
 tmp_data  = data_current_pro %>% 
-  select(!c(location_mg, location, project_budget, project_start_year, project_end_year, count)) %>%  
-  rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) 
+  select(!c(location_mg, location, project_budget, project_start_year
+            ,project_end_year, count)) %>%  
+  rename_with(~str_remove(.x, "_mg") %>% 
+                str_remove("_km")) %>%
+    mutate(research_project_id_number  = strg_numeric_order(research_project_id_number , rev = F)) %>%
+    arrange(research_project_id_number )
 
 id = "current_projects"
 reactable(
@@ -259,7 +265,9 @@ reactable(
 
 tmp_data = data_needed_pro %>% 
   select(!c(existing_project_addressing_need_id_number, data_gap_analysis_score, count)) %>%  
-  rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) 
+  rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) %>%
+    mutate(research_need_id_number   = strg_numeric_order(research_need_id_number  , rev = F)) %>%
+    arrange(research_need_id_number  )
 
 id = "project_needs"
 reactable(
@@ -316,7 +324,10 @@ reactable(
 
 id = "references"
 reactable(
-  data_references_pro %>%  select(!c('database_notes'))
+  data_references_pro %>%  select(!c('database_notes')) %>%
+    mutate(`Reference ID #` = strg_numeric_order(`Reference ID #`, rev = F)) %>%
+    arrange(`Reference ID #`  )  
+    
   ,columns = combined_named_lists(
     # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
     colDef_urlLink(cols = rtrn_cols(data_references_pro, "Link"), link_text = "Link to site")

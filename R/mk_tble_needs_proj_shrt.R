@@ -8,6 +8,7 @@ mk_tble_needs_proj_shrt = function(data){
       ,animal_group, status_of_research, partner_entities, project_website) %>%
     rename(existing_project_id = current_projects
            ,research_need = research_need_crrnt) %>%
+    mutate(research_need_id = strg_numeric_order(research_need_id, rev = F)) %>%
     arrange(research_need_id)
 
   tmp_data = tmp_data %>%

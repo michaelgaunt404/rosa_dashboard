@@ -6,20 +6,23 @@ mk_viz_prj_timeline = function(data, filter = T){
   temp_data = data %>%
     filter(!is.na(project_start_year_mg) &
              !is.na(project_end_year_mg)) %>%
+    mutate(research_project_id_number = strg_numeric_order(research_project_id_number)) %>%
     arrange(research_project_id_number)
   } else {
     temp_data = data %>%
+      mutate(research_project_id_number = strg_numeric_order(research_project_id_number)) %>%
       arrange(research_project_id_number)
+
   }
 
   temp_plot = temp_data %>%
-    mutate(research_project_id_number = fct_relevel(
-      research_project_id_number
-      ,temp_data$research_project_id_number[DescTools::OrderMixed(temp_data$research_project_id_number, decreasing=F)])) %>%
+    # mutate(research_project_id_number = fct_relevel(
+    #   research_project_id_number
+    #   ,temp_data$research_project_id_number[DescTools::OrderMixed(temp_data$research_project_id_number, decreasing=F)])) %>%
     # mutate(label_start = "") %>%
     mutate(label_start = str_glue("{research_project_id_number} ({project_start_year_mg} - {project_end_year_mg})\nResearch Need: {identified_research_need}\nBudget: ${gauntlet::pretty_num(as.numeric(project_budget_mg))}\nStatus: {status_of_research}")) %>%
     plot_ly() %>%
-    add_lines(x = year(Sys.Date()), y = range(temp_data$research_project_id_number), inherit = FALSE
+    add_lines(x = year(Sys.Date()), y = ~research_project_id_number, inherit = FALSE
               ,line = list(color = "lightgrey", alpha = .1), showlegend = FALSE
               ,text = "Current Year", hoverinfo = "text") %>%
     add_segments(x = ~project_start_year_mg, xend = ~project_end_year_mg

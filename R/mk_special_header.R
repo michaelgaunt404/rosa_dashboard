@@ -21,9 +21,9 @@ mk_special_header = function(value, str_l = 10){
 
   value = value %>%
     str_replace(., "y_n", "y/n") %>%
-    strg_pretty_char()
+    strg_pretty_char() %>%
     # str_wrap(width = 10) %>%
-    # str_replace_all("\\n", "<br>")
+    str_replace_all("Pi ", "PI ")
 
   # print(value)
 
