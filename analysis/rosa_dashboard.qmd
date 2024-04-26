@@ -190,6 +190,22 @@ viz_prj_timeline
 
 # Explored Research Needs
 
+## Main Body
+
+### Columm_1 {width="60%"}
+
+```{r}
+#| title: "Needs Table"
+viz_tble_needs_proj_shrt_test
+```
+
+### Columm_2 {width="40%"}
+
+```{r}
+#| title: "Projects by Location"
+viz_proj_location_tree_needs
+```
+
 # Research Gap Analysis {orientation="columns" scrolling="false" #research-needs}
 
 ## Column {.tabset width="50%"}

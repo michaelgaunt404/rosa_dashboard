@@ -2,16 +2,16 @@ mk_viz_proj_location_bar = function(data, filter = T){
 
   # data = tar_read(data_current_pro)
 
-  if (filter){
-    print("true")
-    temp_data = data %>%
-      filter(!is.na(project_start_year_mg) &
-               !is.na(project_end_year_mg)) %>%
-      arrange(research_project_id_number)
-  } else {
-    temp_data = data %>%
-      arrange(research_project_id_number)
-  }
+  # if (filter){
+  #   print("true")
+  #   temp_data = data %>%
+  #     filter(!is.na(project_start_year_mg) &
+  #              !is.na(project_end_year_mg)) %>%
+  #     arrange(research_project_id_number)
+  # } else {
+  #   temp_data = data %>%
+  #     arrange(research_project_id_number)
+  # }
 
   temp_data = data
 
@@ -22,8 +22,6 @@ mk_viz_proj_location_bar = function(data, filter = T){
       ,col = count, rnd = 4
     ) %>%
     rename(parent = location_km, label = identified_research_need)
-
-
 
   test_2 =  temp_data %>%
     count_percent_zscore(
@@ -40,21 +38,18 @@ mk_viz_proj_location_bar = function(data, filter = T){
     mutate(
       parent = replace_na(parent, "")
     ) %>%
-    mutate(label_adj = str_glue("{label}_{parent}") %>% as.character())
-    # filter(str_detect(parent, "NY|NJ|MA|Atlantic"))
+    mutate(label_adj = str_glue("{label}_{parent}") %>%
+             as.character()) %>%
+    mutate(id_1 = case_when(label %in% test_2$label~label, T~label_adj))
 
   temp_plot = plot =
     plot_ly(data = temp_data,
             type= "treemap"
             ,values = ~count
             ,labels = ~label
-            # ,ids = ~label_adj
+            ,ids = ~id_1
             ,parents=  ~parent
-            # ,domain= list(column=1)
-            # ,name = " "
-            # ,maxdepth=2
             ,branchvalues = "total"
-            # ,count = "branches+leaves"
     )
 
   return(temp_plot)
