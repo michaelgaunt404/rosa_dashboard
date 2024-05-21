@@ -2,11 +2,19 @@ upload_file_rosa = function(path){
 
   # path = tar_read(data_rosa_dbase_file)
 
+  # print(path)
+#
   excel_sheets = readxl::excel_sheets(path)
 
   index_data_sheets = c(
-    "Overview", "1. Existing Research Projects", "2. Identified Research Needs"
-    ,"3. References", "4. Definition of Terms", "5. Acronyms List", "6. Pivot Table"
+    "Overview"
+    # ,"1. Existing Research Projects" #currently outdated --- will eventually be used again
+    ,"exrp_pro" #more current version of "1. Existing Research Projects"
+    ,"2. Identified Research Needs"
+    ,"3. References"
+    ,"4. Definition of Terms"
+    ,"5. Acronyms List"
+    ,"6. Pivot Table"
   )
 
   #perfrom quick check 0 make sure sheet names are present and legit

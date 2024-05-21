@@ -1,6 +1,6 @@
-links = function(data, from, to) {
+make_links = function(data, from, to) {
   data %>%
-    dplyr::select(from, to) %>%
+    dplyr::select(all_of(from), all_of(to)) %>%
     unique() %>%
     magrittr::set_names(c('from', "to"))
 }
@@ -17,7 +17,7 @@ linked_items = function(data, list_from, list_to) {
 #creates a color list from column
 color_list = function(data, column, name = column) {
   data %>%
-    select(all_of(column)) %>%
+    dplyr::select(all_of(column)) %>%
     unique() %>%
     mutate(group = name) %>%
     magrittr::set_names(c('name', "group"))
@@ -37,19 +37,40 @@ make_nodes = function(links){
   data.frame(name = c(links$from, links$to) ) %>%
     unique() %>%
     mutate(name = as.character(name)) %>%
-    mutate(id = as.numeric(rownames(.))-1)
+    mutate(id = row_number()-1)
 }
 
 #merges links/nodes so that node ids can be applied to links
+# merge_link_node =  function(links, nodes){
+#   nodes = nodes %>%
+#     select(name, id)
+#
+#   links %>%
+#     merge.data.frame(nodes, by.y = "name", by.x = "from") %>%
+#     rename(source = "id") %>%
+#     merge.data.frame(nodes, by.y = "name", by.x = "to") %>%
+#     rename(target = "id") %>%
+#     select(source, target, value) %>%
+#     mutate(across(c(source, target), as.integer))
+# }
+
+
+
+
 merge_link_node =  function(links, nodes){
   nodes = nodes %>%
     select(name, id)
 
-  links %>%
+  links_temp = links %>%
     merge.data.frame(nodes, by.y = "name", by.x = "from") %>%
     rename(source = "id") %>%
     merge.data.frame(nodes, by.y = "name", by.x = "to") %>%
     rename(target = "id") %>%
-    select(source, target, value) %>%
+    mutate(value = 10) %>%
+    mutate(value = value + row_number()) %>%
+    dplyr::select(source, target, value) %>%
     mutate(across(c(source, target), as.integer))
+
+  return(links_temp)
 }
+

@@ -1,0 +1,314 @@
+---
+title: "Fish FORWRD Database"
+format: 
+  dashboard:
+    embed-resources: true
+---
+
+```{r echo=FALSE, message=FALSE, msg = F, warning = F, error = F}
+library(gauntlet)
+library(magrittr)
+library(tidyverse, quietly = TRUE)
+
+package_load_q = purrr::quietly(gauntlet::package_load)
+
+tmp = c("tibble", "tidyverse", "magrittr","gauntlet", "targets"
+        ,"bosFunctions"
+        ,"reactable", "reactablefmtr", "crosstalk", "plotly", "bslib","bsicons", "htmltools") %>% 
+  package_load_q()
+```
+
+```{r}
+# setwd(here::here())
+table_height = 500
+
+# source(here::here("code/helpers_skankey.R"))
+```
+
+```{css}
+.navbar {
+background-color: #016FB1;
+}
+
+.cardSpecBig {
+text-align: center;
+font-size: large;
+}
+
+.cardcenter {
+text-align: center;
+}
+
+.cardSpecSmall {
+text-align: center;
+font-size: small;
+}
+```
+
+```{js}
+function filter_default(){
+  document.getElementById("id_tble_project_summary_proj").getElementsByClassName("selectized")[0].selectize.setValue("Ex-1",false)
+}
+
+$(document).ready(filter_default);
+```
+
+
+```{r}
+tar_load(data_current_pro)
+tar_load(data_needed_pro)
+tar_load(viz_prj_timeline)
+tar_load(viz_proj_location_tree)
+tar_load(viz_proj_location_tree_needs)
+tar_load(viz_tble_agg_addrssd_gap)
+tar_load(viz_tble_crrnt_proj_shrt)
+tar_load(viz_tble_dcntr_acc)
+tar_load(viz_tble_dcntr_current)
+tar_load(viz_tble_dcntr_def)
+tar_load(viz_tble_dcntr_need)
+tar_load(viz_tble_dcntr_ref)
+tar_load(viz_tble_need_anmlgrp)
+tar_load(viz_tble_needs_proj_shrt)
+tar_load(viz_tble_needs_proj_shrt_test)
+tar_load(viz_viz_unaddressed_needs)
+tar_load(viz_tble_project_summary)
+```
+
+# Welcome Page
+
+## Row {height = "15%"}
+
+::: cardSpecBig
+Welcome to the <strong>Fish FORWRD Database</strong>\
+Developed in Partnership by <strong>ROSA</strong>, <strong>Attentive Energy</strong>, and <strong>WSP</strong>\
+![](../docs/rosa_logo.jpg){width="10%"} ![](../docs/ae_log_sm.png){width="10%"} ![](../docs/img-png-wsp-black.png){width="5%"}
+:::
+
+## Row {height="70%"}
+
+### Column {width="60%"}
+
+::: card
+<strong>What you can do with this Dashboard</strong><br> With this dashboard, you can easily investigate current projects and identified research needs in the ROSA database, considering various factors such as location, needs type, and more..
+
+<strong>How to use this Dashboard</strong><br> This dashboard is comprised of a number of tabs each with their own purpose and functionality.\
+Each tab contain a number of features that either help you explore page content or visuals which provide information based on user input.\
+All tables and plots are interactive and can be manipulated via the mouse.
+
+<strong>Tab Quick Links</strong>
+
+<strong>[Current Projects](#current-projects)</strong><br>
+
+-   View ongoing projects with detailed attributes, timelines, and geographical locations.
+
+<strong>[Research Needs Gap Analysis](#research-needs)</strong><br>
+
+-   Identify research gaps, explore unaddressed needs linked to ongoing projects.
+
+<strong>[View Database](#data-center)</strong><br>
+
+-   Interact with raw data through user-friendly tools, and download data directly.
+
+<strong>Additional Resources</strong><br>
+
+See the links provided below for additional resources.
+
+-   [RWSC Database](https://database.rwsc.org/)
+-   [Atlantic Offshore Wind Environmental Research Recommendations](https://tethys.pnnl.gov/atlantic-offshore-wind-environmental-research-recommendations)
+-   [Fish FORWRD Data Entry From](https://docs.google.com/forms/d/e/1FAIpQLSeKWFSwyjctrozrUmYmY3Ff4Bc6A-gc-IfqQ7YGSt-hP1oWrw/viewform)
+:::
+
+### Column {width="15%"}
+
+```{r}
+bslib::value_box(
+  title = "Total Project Count"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = nrow(data_current_pro)
+)
+```
+
+```{r}
+bslib::value_box(
+  title = "Total Unique Research Categories"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = length(unique(data_current_pro$identified_research_need))
+)
+```
+
+```{r}
+bslib::value_box(
+  title = "Total Identified Needs"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = nrow(data_needed_pro)
+)
+```
+
+### Column {width="15%"}
+
+```{r}
+bslib::value_box(
+  title = "% Complete or Near Complete"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>%
+    paste0(., "%")
+)
+```
+
+```{r}
+bslib::value_box(
+  title = "Total Unique Research \nLocations"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = length(unique(data_current_pro$location_km))
+)
+```
+
+```{r}
+bslib::value_box(
+  title = "% Not Addressed"
+  ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
+  ,value = (100*round(nrow(data_needed_pro[data_needed_pro$data_gap_analysis_score == "Not Addressed", ])/nrow(data_needed_pro), 2)) %>%
+    paste0(., "%")
+)
+```
+
+## Row {height="10%"}
+
+::: cardSpecSmall
+For support, issue reporting, or for features you'd like to see - contact: CONTACTS NEEDED
+
+The data presented in this database last updated: YYYY-MM-DD
+:::
+
+# Current Projects {#current-projects orientation="rows" scrolling="false"}
+
+## Main Body
+
+### Columm_1 {width="60%"}
+
+```{r}
+#| title: "Research Need Snapshot (by category)"
+viz_tble_crrnt_proj_shrt
+```
+
+### Columm_2 {.tabset width="40%"}
+
+```{r}
+#| title: "Projects by Location"
+viz_proj_location_tree
+```
+
+```{r}
+#| title: "Project Timelines"
+viz_prj_timeline
+```
+
+
+# Explored Research Needs {#explored-research-needs orientation="columns" scrolling="false"}
+
+## Column {.tabset width="50%"}
+
+```{r}
+#| title: "Identified Needs Snapshot"
+viz_tble_needs_proj_shrt
+```
+
+```{r}
+#| title: "Animal Group Completion Rate"
+viz_tble_need_anmlgrp
+```
+
+## Column {.tabset width="50%"}
+
+```{r}
+#| title: Unaddressed Research Needs
+viz_viz_unaddressed_needs
+```
+
+```{r}
+#| title: Research Needs Gap Table
+viz_tble_agg_addrssd_gap
+```
+
+# Research Gap Analysis {#research-needs orientation="columns" scrolling="false"}
+
+## Columm_1 {width="60%"}
+
+```{r}
+#| title: "Needs Table"
+viz_tble_needs_proj_shrt_test
+```
+
+## Columm_2 {width="40%"}
+
+```{r}
+#| title: "Needs by Location"
+viz_proj_location_tree_needs
+```
+
+# Data Center {#data-center}
+
+##  {.tabset}
+
+```{r}
+#| title: Current Projects
+
+viz_tble_dcntr_current
+```
+
+```{r}
+#| title: Research Priorities
+
+viz_tble_dcntr_need
+```
+
+```{r}
+#| title: Acronyms List
+
+viz_tble_dcntr_acc
+```
+
+```{r}
+#| title: Terms Definition
+
+viz_tble_dcntr_def
+```
+
+```{r}
+#| title: References
+
+viz_tble_dcntr_ref
+```
+
+##  {-}
+
+# Project Summary {#project-smmry orientation="columns" scrolling="false"}
+
+```{r}
+viz_tble_project_summary
+```
+
+# Submit Project {#submit-project orientation="columns" scrolling="true"}
+
+```{r}
+bslib::layout_columns(col_widths = 8
+               ,bslib::card(
+                 # bslib::card_header(
+                 #   class = "bg-dark"
+                 #   ,"Test"
+                 # )
+                 bslib::card_body(
+shiny::markdown("This is a place holder tab.
+
+<strong>Amet facilisis magna etiam</strong><br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Scelerisque eu ultrices vitae auctor eu augue. Libero volutpat sed cras ornare arcu dui vivamus arcu. Mattis pellentesque id nibh tortor.
+
+<strong>Tab Quick Links</strong>
+
+<strong>[Link to submission form](https://google.com/)</strong>")
+)))
+```
+
+
+
+
+
