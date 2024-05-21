@@ -27,6 +27,7 @@ mk_tble_needs_proj_shrt = function(data){
     ,columns = combined_named_lists(
       colDef_html(cols = colnames(tmp_data))
       ,colDef_sticky(cols = rtrn_cols(tmp_data, "research_need_id|existing_"))
+      ,colDef_colWidth_robust(cols = rtrn_cols(tmp_data, "research_need_id|existing_"), maxWidth = 80)
       ,colDef_urlLink_spec(cols = "existing_project_id", col_url = "project_website", tmp_data)
       ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "id", exclude = T), id = id)
     )

@@ -9,7 +9,7 @@ mk_tble_crrnt_proj_shrt = function(data){
     dplyr::select(research_project_id_number
                   ,project_title
                   ,animal_group
-                  ,location_mg
+                  ,location
                   ,status_of_research
                   ,pi_name
                   ,pi_contact_info

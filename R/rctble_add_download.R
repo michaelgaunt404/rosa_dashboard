@@ -17,5 +17,14 @@ rctble_add_download = function (object, id)
           ,"Download as CSV")
         ,onclick = stringr::str_glue("Reactable.downloadDataCSV('{id}', '{id}_{gauntlet::strg_clean_date()}.csv')"))
       ,object))
+
   return(temp)
 }
+
+
+
+
+
+
+
+

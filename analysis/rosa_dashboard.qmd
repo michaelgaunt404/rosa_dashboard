@@ -3,7 +3,6 @@ title: "Fish FORWRD Database"
 format: 
   dashboard:
     embed-resources: true
-
 ---
 
 ```{r echo=FALSE, message=FALSE, msg = F, warning = F, error = F}
@@ -46,59 +45,77 @@ font-size: small;
 }
 ```
 
+```{js}
+function filter_default(){
+  document.getElementById("id_tble_project_summary_proj").getElementsByClassName("selectized")[0].selectize.setValue("Ex-1",false)
+}
 
-```{r}
-setwd(here::here())
-targets::tar_source()
-targets::tar_load_everything()
+$(document).ready(filter_default);
 ```
 
-# Welcome Page 
+
+```{r}
+tar_load(data_current_pro)
+tar_load(data_needed_pro)
+tar_load(viz_prj_timeline)
+tar_load(viz_proj_location_tree)
+tar_load(viz_proj_location_tree_needs)
+tar_load(viz_tble_agg_addrssd_gap)
+tar_load(viz_tble_crrnt_proj_shrt)
+tar_load(viz_tble_dcntr_acc)
+tar_load(viz_tble_dcntr_current)
+tar_load(viz_tble_dcntr_def)
+tar_load(viz_tble_dcntr_need)
+tar_load(viz_tble_dcntr_ref)
+tar_load(viz_tble_need_anmlgrp)
+tar_load(viz_tble_needs_proj_shrt)
+tar_load(viz_tble_needs_proj_shrt_test)
+tar_load(viz_viz_unaddressed_needs)
+tar_load(viz_tble_project_summary)
+```
+
+# Welcome Page
 
 ## Row {height = "15%"}
 
-::: {.cardSpecBig}
-Welcome to the <strong>Fish FORWRD Database</strong>    
-Developed in Partnership by <strong>ROSA</strong>, <strong>Attentive Energy</strong>, and <strong>WSP</strong>   
-![](../docs/rosa_logo.jpg){width="10%"} ![](../docs/ae_log_sm.png){width="10%"}  ![](../docs/img-png-wsp-black.png){width="5%"} 
-    
-:::   
+::: cardSpecBig
+Welcome to the <strong>Fish FORWRD Database</strong>\
+Developed in Partnership by <strong>ROSA</strong>, <strong>Attentive Energy</strong>, and <strong>WSP</strong>\
+![](../docs/rosa_logo.jpg){width="10%"} ![](../docs/ae_log_sm.png){width="10%"} ![](../docs/img-png-wsp-black.png){width="5%"}
+:::
 
 ## Row {height="70%"}
 
 ### Column {width="60%"}
 
-::: {.card}    
-<strong>What you can do with this Dashboard</strong><br>
-With this dashboard, you can easily investigate current projects and identified research needs in the ROSA database, considering various factors such as location, needs type, and more..
+::: card
+<strong>What you can do with this Dashboard</strong><br> With this dashboard, you can easily investigate current projects and identified research needs in the ROSA database, considering various factors such as location, needs type, and more..
 
-<strong>How to use this Dashboard</strong><br>
-This dashboard is comprised of a number of tabs each with their own purpose and functionality.   
-Each tab contain a number of features that either help you explore page content or visuals which provide information based on user input.   
+<strong>How to use this Dashboard</strong><br> This dashboard is comprised of a number of tabs each with their own purpose and functionality.\
+Each tab contain a number of features that either help you explore page content or visuals which provide information based on user input.\
 All tables and plots are interactive and can be manipulated via the mouse.
 
 <strong>Tab Quick Links</strong>
 
 <strong>[Current Projects](#current-projects)</strong><br>
 
-+ View ongoing projects with detailed attributes, timelines, and geographical locations.
+-   View ongoing projects with detailed attributes, timelines, and geographical locations.
 
 <strong>[Research Needs Gap Analysis](#research-needs)</strong><br>
 
-+ Identify research gaps, explore unaddressed needs linked to ongoing projects.
+-   Identify research gaps, explore unaddressed needs linked to ongoing projects.
 
 <strong>[View Database](#data-center)</strong><br>
 
-+ Interact with raw data through user-friendly tools, and download data directly.
+-   Interact with raw data through user-friendly tools, and download data directly.
 
 <strong>Additional Resources</strong><br>
 
-See the links provided below for additional resources. 
+See the links provided below for additional resources.
 
-+ [RWSC Database](https://database.rwsc.org/)
-+ [Atlantic Offshore Wind Environmental Research Recommendations](https://tethys.pnnl.gov/atlantic-offshore-wind-environmental-research-recommendations)
-+ [Fish FORWRD Data Entry From](https://docs.google.com/forms/d/e/1FAIpQLSeKWFSwyjctrozrUmYmY3Ff4Bc6A-gc-IfqQ7YGSt-hP1oWrw/viewform)
-
+-   [RWSC Database](https://database.rwsc.org/)
+-   [Atlantic Offshore Wind Environmental Research Recommendations](https://tethys.pnnl.gov/atlantic-offshore-wind-environmental-research-recommendations)
+-   [Fish FORWRD Data Entry From](https://docs.google.com/forms/d/e/1FAIpQLSeKWFSwyjctrozrUmYmY3Ff4Bc6A-gc-IfqQ7YGSt-hP1oWrw/viewform)
 :::
 
 ### Column {width="15%"}
@@ -157,15 +174,13 @@ bslib::value_box(
 
 ## Row {height="10%"}
 
-::: {.cardSpecSmall}
-  
-For support, issue reporting, or for features you'd like to see - contact:  CONTACTS NEEDED
+::: cardSpecSmall
+For support, issue reporting, or for features you'd like to see - contact: CONTACTS NEEDED
 
 The data presented in this database last updated: YYYY-MM-DD
-   
 :::
 
-# Current Projects {orientation="rows" scrolling="false" #current-projects}
+# Current Projects {#current-projects orientation="rows" scrolling="false"}
 
 ## Main Body
 
@@ -188,25 +203,8 @@ viz_proj_location_tree
 viz_prj_timeline
 ```
 
-# Explored Research Needs
 
-## Main Body
-
-### Columm_1 {width="60%"}
-
-```{r}
-#| title: "Needs Table"
-viz_tble_needs_proj_shrt_test
-```
-
-### Columm_2 {width="40%"}
-
-```{r}
-#| title: "Projects by Location"
-viz_proj_location_tree_needs
-```
-
-# Research Gap Analysis {orientation="columns" scrolling="false" #research-needs}
+# Explored Research Needs {#explored-research-needs orientation="columns" scrolling="false"}
 
 ## Column {.tabset width="50%"}
 
@@ -232,6 +230,22 @@ viz_viz_unaddressed_needs
 viz_tble_agg_addrssd_gap
 ```
 
+# Research Gap Analysis {#research-needs orientation="columns" scrolling="false"}
+
+## Columm_1 {width="60%"}
+
+```{r}
+#| title: "Needs Table"
+viz_tble_needs_proj_shrt_test
+```
+
+## Columm_2 {width="40%"}
+
+```{r}
+#| title: "Needs by Location"
+viz_proj_location_tree_needs
+```
+
 # Data Center {#data-center}
 
 ##  {.tabset}
@@ -239,125 +253,62 @@ viz_tble_agg_addrssd_gap
 ```{r}
 #| title: Current Projects
 
-tmp_data  = data_current_pro %>% 
-  select(!c(location_mg, location, project_budget, project_start_year
-            ,project_end_year, count)) %>%  
-  rename_with(~str_remove(.x, "_mg") %>% 
-                str_remove("_km")) %>%
-    mutate(research_project_id_number  = strg_numeric_order(research_project_id_number , rev = F)) %>%
-    arrange(research_project_id_number )
-
-id = "current_projects"
-reactable(
-  tmp_data 
-  ,columns = combined_named_lists(
-    colDef_sticky(col = "research_project_id_number", side = "left")
-    ,colDef_urlLink(cols = rtrn_cols(tmp_data, "_website"), link_text = "Link to site")
-    ,colDef_mailto(
-      cols = rtrn_cols(tmp_data, "pi_name")
-      ,col_email = rtrn_cols(tmp_data, "pi_contact_info")
-      ,data = tmp_data)
-    ,colDef_colWidth_robust(
-      cols = rtrn_cols(tmp_data, "project_objectives|notes|methodology"), minWidth = 600)
-    ,colDef_colWidth_robust(
-      cols = rtrn_cols(tmp_data, "research_category"), minWidth = 100)
-    ,colDef_colWidth_robust(
-      cols = rtrn_cols(tmp_data
-                       ,"title|partner_ent|funding|temporal|windfarm|identified|gis"), minWidth = 250)
-    ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "objectives|method|notes", exclude = T)
-                          ,id = id)
-  )
-  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold")
-                          ,minWidth = 150
-                          ,header = mk_special_header)
-  ,wrap = T, elementId = id
-) %>%
-  rctble_format_table() %>%
-  rctble_add_download(., id = id)
+viz_tble_dcntr_current
 ```
 
 ```{r}
 #| title: Research Priorities
 
-tmp_data = data_needed_pro %>% 
-  select(!c(existing_project_addressing_need_id_number, data_gap_analysis_score, count)) %>%  
-  rename_with(~str_remove(.x, "_mg") %>% str_remove("_km")) %>%
-    mutate(research_need_id_number   = strg_numeric_order(research_need_id_number  , rev = F)) %>%
-    arrange(research_need_id_number  )
-
-id = "project_needs"
-reactable(
-  data_needed_pro %>% select(!count)
-  ,columns = combined_named_lists(
-    colDef_sticky(col = "research_need_id_number", side = "left")
-    ,colDef_minwidth(cols = rtrn_cols(tmp_data, "addressing|status"), width = 200)
-    ,colDef_minwidth(cols = rtrn_cols(tmp_data, "summary|explanation|notes"), width = 600)
-    ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "summary|status|addressing|explanation|notes", exclude = T)
-                          ,id = id)
-  ),defaultColDef = colDef(footerStyle = list(fontWeight = "bold")
-                           ,minWidth = 150
-                           ,header = mk_special_header)
-  ,wrap = T
-  ,elementId = id
-) %>%
-  rctble_format_table() %>%
-  rctble_add_download(., id = id)
+viz_tble_dcntr_need
 ```
 
 ```{r}
 #| title: Acronyms List
 
-id = "acronyms_list"
-
-reactable(
-  data_acro_list_pro
-  ,columns = combined_named_lists(
-  colDef_colWidth_robust(cols = "Acronym", maxWidth = 300)
-  ),defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
-  ,wrap = F, elementId = id
-) %>%
-  rctble_format_table() %>%
-  rctble_add_download(., id = id)
+viz_tble_dcntr_acc
 ```
 
 ```{r}
 #| title: Terms Definition
 
-id = "terms_definition"
-reactable(
-  data_def_terms_pro %>% .[,c(1:3)]
-  ,columns = combined_named_lists(
-    colDef_colWidth_robust(cols = rtrn_cols(data_def_terms_pro, "erm"), maxWidth = 300)
-  ), defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
-  ,wrap = T, elementId = id
-) %>%
-  rctble_format_table() %>%
-  rctble_add_download(., id = id)
+viz_tble_dcntr_def
 ```
 
 ```{r}
 #| title: References
 
-id = "references"
-reactable(
-  data_references_pro %>%  select(!c('database_notes')) %>%
-    mutate(`Reference ID #` = strg_numeric_order(`Reference ID #`, rev = F)) %>%
-    arrange(`Reference ID #`  )  
-    
-  ,columns = combined_named_lists(
-    # colDef_agg(cols = c(as.character(1:28), 'Grand Total'), rm_footer = T)
-    colDef_urlLink(cols = rtrn_cols(data_references_pro, "Link"), link_text = "Link to site")
-    ,colDef_colWidth_robust(cols = rtrn_cols(data_references_pro, "Full Citation|Notes")
-                            ,wrap = T, minWidth = 400)
-    ,colDef_sticky(col = rtrn_cols(data_references_pro, "Reference ID")
-                   ,side = "right")
-    )
-  ,defaultColDef = colDef(footerStyle = list(fontWeight = "bold"), header = mk_special_header)
-  ,wrap = T
-  ,elementId = id
-) %>%
-  rctble_format_table() %>%
-  rctble_add_download(., id = id)
+viz_tble_dcntr_ref
 ```
 
-##  {.unnumbered}
+##  {-}
+
+# Project Summary {#project-smmry orientation="columns" scrolling="false"}
+
+```{r}
+viz_tble_project_summary
+```
+
+# Submit Project {#submit-project orientation="columns" scrolling="true"}
+
+```{r}
+bslib::layout_columns(col_widths = 8
+               ,bslib::card(
+                 # bslib::card_header(
+                 #   class = "bg-dark"
+                 #   ,"Test"
+                 # )
+                 bslib::card_body(
+shiny::markdown("This is a place holder tab.
+
+<strong>Amet facilisis magna etiam</strong><br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Scelerisque eu ultrices vitae auctor eu augue. Libero volutpat sed cras ornare arcu dui vivamus arcu. Mattis pellentesque id nibh tortor.
+
+<strong>Tab Quick Links</strong>
+
+<strong>[Link to submission form](https://google.com/)</strong>")
+)))
+```
+
+
+
+
+

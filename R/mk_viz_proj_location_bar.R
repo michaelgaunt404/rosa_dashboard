@@ -17,19 +17,19 @@ mk_viz_proj_location_bar = function(data, filter = T){
 
   test_1 = temp_data %>%
     count_percent_zscore(
-      grp_c = c("location_km", "identified_research_need")
-      ,grp_p = c("location_km")
+      grp_c = c("location", "identified_research_need")
+      ,grp_p = c("location")
       ,col = count, rnd = 4
     ) %>%
-    rename(parent = location_km, label = identified_research_need)
+    rename(parent = location, label = identified_research_need)
 
   test_2 =  temp_data %>%
     count_percent_zscore(
-      grp_c = c("location_km")
+      grp_c = c("location")
       ,grp_p = c()
       ,col = count, rnd = 4
     ) %>%
-    rename(label = location_km)
+    rename(label = location)
 
   temp_data = bind_rows(
     test_1
@@ -42,7 +42,7 @@ mk_viz_proj_location_bar = function(data, filter = T){
              as.character()) %>%
     mutate(id_1 = case_when(label %in% test_2$label~label, T~label_adj))
 
-  temp_plot = plot =
+  temp_plot =
     plot_ly(data = temp_data,
             type= "treemap"
             ,values = ~count

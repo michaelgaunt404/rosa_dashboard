@@ -20,7 +20,7 @@ mk_viz_prj_timeline = function(data, filter = T){
     #   research_project_id_number
     #   ,temp_data$research_project_id_number[DescTools::OrderMixed(temp_data$research_project_id_number, decreasing=F)])) %>%
     # mutate(label_start = "") %>%
-    mutate(label_start = str_glue("{research_project_id_number} ({project_start_year_mg} - {project_end_year_mg})\nResearch Need: {identified_research_need}\nBudget: ${gauntlet::pretty_num(as.numeric(project_budget_mg))}\nStatus: {status_of_research}")) %>%
+    mutate(label_start = str_glue("{research_project_id_number} ({project_start_year_mg} - {project_end_year_mg})\nResearch Need: {identified_research_need}\nBudget: ${gauntlet::strg_pretty_num(as.numeric(project_budget_mg))}\nStatus: {status_of_research}")) %>%
     plot_ly() %>%
     add_lines(x = year(Sys.Date()), y = ~research_project_id_number, inherit = FALSE
               ,line = list(color = "lightgrey", alpha = .1), showlegend = FALSE

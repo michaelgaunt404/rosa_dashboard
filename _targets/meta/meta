@@ -1,4 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+.Random.seed|object|d76ace33f0741056|||||||||||||||
 colDef_colorScales|function|1b4303290d93a317|||||||||||||||
 colDef_colWidth_robust|function|72b850d11a982f51|||||||||||||||
 colDef_filter_select|function|8f39361fb9bb6ce9|||||||||||||||
@@ -6,50 +7,65 @@ colDef_html|function|dc5b0a4727b3bd26|||||||||||||||
 colDef_mailto|function|7383deeadca2dca5|||||||||||||||
 colDef_urlLink|function|8ee1060c1c3fe94f|||||||||||||||
 colDef_urlLink_spec|function|82bd464d1f0f8703|||||||||||||||
-data_acro_list_pro|stem|6ef0dfed40db464c|7b7a2e5c42229efa|97f0003dd63ee825|-627136561||t19838.777408021s|cc1707d3b2c57f12|770|rds|local|vector|||0||
-data_current_needed|stem|bfdee97974e00878|8276cf4a509b14e7|92817de5973aa747|-1682592952||t19838.777419151s|92c1c7a9b218a7a2|4519|rds|local|vector|||0.16|Expected 8 pieces. Additional pieces discarded in 6 rows 2, 3, 4, 6, 53, 63.. Expected 8 pieces. Missing pieces filled with NA in 224 rows 1, 5, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, ....|
-data_current_pro|stem|800f4d2bb1772dd9|f5570d9c752fc2a6|6b5e244042387755|1806357150||t19838.7774063018s|e4ed8eefd4c68375|28849|rds|local|vector|||0.36|There were 2 warnings in mutate.The first warning wasℹ In argument project_start_year_mg  as.numericproject_start_year_mg.Caused by warning NAs introduced by coercionℹ Run dplyrlast_dplyr_warnings to see the 1 remaining warning.|
+data_acro_list_pro|stem|6ef0dfed40db464c|7b7a2e5c42229efa|01901026c05d4750|-627136561||t19856.8838608604s|cc1707d3b2c57f12|770|rds|local|vector|||0.01||
+data_current_needed|stem|758b618cc5140666|8276cf4a509b14e7|f53412258a1b2f86|-1682592952||t19859.808107277s|5be327e2850faf4b|4553|rds|local|vector|||0.17|Expected 8 pieces. Additional pieces discarded in 6 rows 2, 3, 4, 6, 53, 63.. Expected 8 pieces. Missing pieces filled with NA in 224 rows 1, 5, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, ....|
+data_current_pro|stem|2448dbf391b014e2|f5570d9c752fc2a6|922f0ac6d1b4b037|1806357150||t19859.8072317446s|5b5a4f767296ccbd|28648|rds|local|vector|||0.3|There were 2 warnings in mutate.The first warning wasℹ In argument project_start_year_mg  as.numericproject_start_year_mg.Caused by warning NAs introduced by coercionℹ Run dplyrlast_dplyr_warnings to see the 1 remaining warning.|
 data_def_terms|stem|883dd59806beb344|a1d73d4eb9659508|3148f9e50fb7a6b1|79767846||t19718.7321804372s|d0bd36d2b6255cfe|3388|rds|local|vector|||0.01||
-data_def_terms_pro|stem|f01f2129584643df|32af9ef17e9c8710|c23f90c8b0684e5e|731187685||t19838.7774083522s|50e453e77132f964|3388|rds|local|vector|||0||
-data_needed_pro|stem|8f5d1d115ecdccb6|2594c6a297c0ccbf|82460ee431e21996|1086603909||t19838.7774077422s|35c285b72fd08517|39584|rds|local|vector|||0.05||
-data_needProj_gap|stem|fc2572ea64a337c1|139fbfd7c07738d4|b68ae01b266b5d7c|-1814142389||t19838.7774199281s|394da78d38c90170|609|rds|local|vector|||0.05||
-data_references_pro|stem|a36d6b4ab952598e|d893da55061cda58|3e7b1f5228a9af83|1195677051||t19838.7774067224s|ddd233de6c8508b0|8781|rds|local|vector|||0.02||
-data_rosa_dbase_file|stem|323e0cf2b85e4141|c0991a82d2d7d05f|2c530c1562a7fbd1|557429983|C:/Users/USMG687637/Documents/080_projects/thea_dashboard/data/ROSA_FishFORWRD_Database_28Nov2022_Unprotected_mg20240111.xlsx|t19732.9537734347s|678ce1d722801a8b|502549|file|local|vector|||5.21|replacing previous import data.tablefirst by dplyrfirst when loading gauntlet. replacing previous import data.tablelast by dplyrlast when loading gauntlet. replacing previous import data.tablebetween by dplyrbetween when loading gauntlet. replacing previous import data.tabletranspose by purrrtranspose when loading gauntlet|
-data_rosa_dbase_list|stem|c3453cc5b8239d21|476114e950edfc78|3ada79763dd1fe08|-2137420262||t19838.777401808s|b384c6a168e3e21f|86521|rds|local|vector|||1.81||
-global_package|object|5a1371cc6932daaa|||||||||||||||
+data_def_terms_pro|stem|f01f2129584643df|32af9ef17e9c8710|08837e47864cd2bf|731187685||t19856.8838683952s|50e453e77132f964|3388|rds|local|vector|||0||
+data_needed_pro|stem|2fc505aa9f1c32c4|2594c6a297c0ccbf|1debcc5bffee3c32|1086603909||t19859.8074464961s|a26f739fa80471ca|39551|rds|local|vector|||0.04||
+data_needed_pro_ex|stem|ce9b175a63a378f0|57e6aa7f6c3d09eb|f30e46a42e8c21e4|-662496262||t19859.8098390422s|a6e711292f136303|21730|rds|local|vector|||0.28|There were 2 warnings in mutate.The first warning wasℹ In argument across....Caused by warning 1 unknown level in f NAℹ Run dplyrlast_dplyr_warnings to see the 1 remaining warning.|
+data_needProj_gap|stem|fc2572ea64a337c1|139fbfd7c07738d4|6eb36f6f9ab9875e|-1814142389||t19859.8107649761s|394da78d38c90170|609|rds|local|vector|||0.06||
+data_references_pro|stem|a36d6b4ab952598e|d893da55061cda58|c773251785b5028c|1195677051||t19856.8838680366s|ddd233de6c8508b0|8781|rds|local|vector|||0||
+data_rosa_dbase_file|stem|9ac5c21d84bbeb22|724d721313ba83fd|2c530c1562a7fbd1|557429983|C:/Users/USMG687637/Documents/080_projects/thea_dashboard/data/ROSA_FishFORWRD_Database_28Nov2022_Unprotected_mg20240510.xlsx|t19853.9523856416s|afd751711d9127c9|566993|file|local|vector|||4.11|replacing previous import data.tablefirst by dplyrfirst when loading gauntlet. replacing previous import data.tablelast by dplyrlast when loading gauntlet. replacing previous import data.tablebetween by dplyrbetween when loading gauntlet. replacing previous import data.tabletranspose by purrrtranspose when loading gauntlet|
+data_rosa_dbase_list|stem|abb564e06d0bf232|476114e950edfc78|8d6c9a2bad3750ec|-2137420262||t19856.8838602354s|faba3a5548a7200f|86292|rds|local|vector|||2.48||
+global_package|object|7eecf72bd3455839|||||||||||||||
 merge_current_needed|function|44da8e01ed96d280|||||||||||||||
 mk_special_header|function|79ef8be910906507|||||||||||||||
 mk_tble_agg_addrssd_gap|function|9d8f54ddf5484ac6|||||||||||||||
 mk_tble_agg_needs_animal_cmplt|function|890d1b6efdae6af6|||||||||||||||
-mk_tble_crrnt_proj_shrt|function|d5b1ae2f2008aff4|||||||||||||||
-mk_tble_need_anmlgrp|function|9b498a7803c5efc7|||||||||||||||
-mk_tble_needs_proj_shrt|function|1802fac28ebe761d|||||||||||||||
-mk_tble_needs_proj_shrt_test|function|e0f50e4bd72faa50|||||||||||||||
-mk_viz_prj_timeline|function|94e7625975ff1195|||||||||||||||
-mk_viz_proj_location_bar|function|05427c66ab2163f9|||||||||||||||
+mk_tble_crrnt_proj_shrt|function|b75480228ab6563e|||||||||||||||
+mk_tble_dcntr_acc|function|62e7b2bc206b7a1c|||||||||||||||
+mk_tble_dcntr_current|function|5203da66c7444ccc|||||||||||||||
+mk_tble_dcntr_def|function|a3d90e3f33dd2871|||||||||||||||
+mk_tble_dcntr_need|function|50acfab7a46eaa1f|||||||||||||||
+mk_tble_dcntr_ref|function|2a08942dfa0b8a9a|||||||||||||||
+mk_tble_need_anmlgrp|function|494be714b8aaf40b|||||||||||||||
+mk_tble_needs_proj_shrt|function|817c630e162a9e1c|||||||||||||||
+mk_tble_needs_proj_shrt_test|function|71c79de7ea994e9b|||||||||||||||
+mk_tble_project_summary|function|920cd66a7272ab4b|||||||||||||||
+mk_viz_prj_timeline|function|defad4e9d8d099eb|||||||||||||||
+mk_viz_proj_location_bar|function|11a0bad5746e9c18|||||||||||||||
 mk_viz_proj_location_bar_needs|function|0f939c1b5bce1196|||||||||||||||
 mk_viz_unaddressed_needs|function|6e165feb104e937f|||||||||||||||
 pivot_needProj_gap|function|4a0f5efa80522eeb|||||||||||||||
 prcss_acro_list|function|693f88bfd180fcc8|||||||||||||||
-prcss_current_proj|function|2910c51551680f8a|||||||||||||||
+prcss_current_proj|function|898ae8d12b336d79|||||||||||||||
 prcss_def_terms|function|2428fdd71fd21f6d|||||||||||||||
-prcss_merge_current_needed|function|c8c9de777ab04580|||||||||||||||
+prcss_merge_current_needed|function|3093d27ca85f8ea3|||||||||||||||
 prcss_needed_pro|function|e8e73f22f42a1653|||||||||||||||
-prcss_needed_proj|function|1ca5badb3f805c3f|||||||||||||||
+prcss_needed_proj|function|875ba989654d83d2|||||||||||||||
+prcss_needed_proj_ex|function|f0a18f40a397991e|||||||||||||||
 prcss_references|function|c5965cf0e2dba0a2|||||||||||||||
 rctble_add_download|function|649b75598112cbb9|||||||||||||||
 rctble_format_table|function|a89f8767efd0dc2a|||||||||||||||
+rpt_rosa_dashboard|stem|e4e25a3f3b266c8d|7885e2000032029a|ab4ee119fb678a0c|-2138987390|analysis/rosa_dashboard.html*analysis/rosa_dashboard.qmd|t19859.968288759s|fdbcd5eea5dd99a6|9280544|file|local|vector|||37.37||
 rtrn_cols|function|2de4d311b01db8d6|||||||||||||||
-strg_numeric_order|function|83d5b1c594edb4df|||||||||||||||
+strg_numeric_order|function|02fe84ffb699891a|||||||||||||||
 strg_wrap_html|function|b86fb26104cedef1|||||||||||||||
-upload_file_rosa|function|4339d5cebccaa2b2|||||||||||||||
-viz_prj_timeline|stem|0093a82a7550708e|be1732096b7470e5|24cdd2d6d793bedb|-343663630||t19838.7774170684s|812389ecbb0e60ed|94153|rds|local|vector|||0.18|There was 1 warning in mutate.ℹ In argument label_start  str_glueresearch_project_id_number  project_start_year_mg  project_end_year_mg\nResearch Need  identified_research_need\nBudget  gauntletpretty_numas.numericproject_budget_mg\nStatus  status_of_research.Caused by warning in dgt0 NAs introduced by coercion|
-viz_proj_location_tree|stem|6685c906bff98bc6|361ad2e3285be157|32a8a79fc38161fa|-431421262||t19839.6314246805s|5b6064de47804411|67200|rds|local|vector|||0.09||
-viz_proj_location_tree_needs|stem|97b880eb706d2ae4|3df7814d228c867d|1f9c5025cb78374c|-803818042||t19839.6314260188s|52565b29d4bd8abf|51650|rds|local|vector|||0.08||
-viz_tble_agg_addrssd_gap|stem|3a1bd3e3f34e7001|a4132ae18b646cee|98934aacb90a7e31|-1975591583||t19838.7774572168s|d66faa8282434792|2266|rds|local|vector|||0.66||
-viz_tble_agg_needs_animal_cmplt|stem|fa6bcb87faf2e3ca|9b5a59abc4abc27b|d5410698b8427913|1798409705||t19838.7774489449s|f5ef2c0874859d3a|3609|rds|local|vector|||1.94||
-viz_tble_crrnt_proj_shrt|stem|024a7e5a29cdc000|089ec030f68c8dc3|59e58c7c0d0df739|612505591||t19838.7774132724s|36e93ff5983be973|13993|rds|local|vector|||0.41||
-viz_tble_need_anmlgrp|stem|c04437b1c9a3cb9d|df68a95eafbfc6cf|5ff4732fbd4f4ffe|727636261||t19838.7774228835s|a1cdd3335278cb22|2297|rds|local|vector|||0.24||
-viz_tble_needs_proj_shrt|stem|2bd095ad1a104af2|c696e354285222e8|6f9942414467d97a|-1945808585||t19838.7774262634s|b0a71fc4f4da050e|8854|rds|local|vector|||0.27||
-viz_tble_needs_proj_shrt_test|stem|0ca6795154a07125|3d84fb1689905b11|e9cf12060c47a884|-1707891409||t19839.6514454793s|0e31b5eedab9faaf|5152|rds|local|vector|||0.25||
+upload_file_rosa|function|cf3997dcbceba0d0|||||||||||||||
+viz_prj_timeline|stem|ca5cbb1805434f00|be1732096b7470e5|8787c3895d83768c|-343663630||t19859.6736834009s|c8f4b0ea9ff8b6dd|93676|rds|local|vector|||0.25|There was 1 warning in mutate.ℹ In argument label_start  str_glueresearch_project_id_number  project_start_year_mg  project_end_year_mg\nResearch Need  identified_research_need\nBudget  gauntletstrg_pretty_numas.numericproject_budget_mg\nStatus  status_of_research.Caused by warning in gauntletdgt0 NAs introduced by coercion|
+viz_proj_location_tree|stem|d262a7bd5ed48b78|361ad2e3285be157|a75c074013c95405|-431421262||t19856.8938428387s|5abf01293a6259a3|66020|rds|local|vector|||0.13||
+viz_proj_location_tree_needs|stem|d8c82f39906d2273|8de09c94ee719b9d|c57383f883bd424a|-803818042||t19859.8107707423s|5b49d87f18562763|32627|rds|local|vector|||0.08||
+viz_tble_agg_addrssd_gap|stem|3a1bd3e3f34e7001|a4132ae18b646cee|98934aacb90a7e31|-1975591583||t19859.7630658836s|d66faa8282434792|2266|rds|local|vector|||0.57||
+viz_tble_agg_needs_animal_cmplt|stem|fa6bcb87faf2e3ca|9b5a59abc4abc27b|061926b29021b59a|1798409705||t19859.7630591262s|f5ef2c0874859d3a|3609|rds|local|vector|||1.75||
+viz_tble_crrnt_proj_shrt|stem|cfa63babafe896d0|089ec030f68c8dc3|c6d3379607bc29ec|612505591||t19859.763017691s|f24e0a1cb421eacf|13613|rds|local|vector|||0.25||
+viz_tble_dcntr_acc|stem|0d362b020f7160ab|87d3c3eccc8b02c5|76f338904a5c4898|667489947||t19859.7630093515s|99993693acfff527|1911|rds|local|vector|||0.16||
+viz_tble_dcntr_current|stem|722ccd30836f92b5|0dd1094c934166fb|850ba5551e6f15f0|460240887||t19859.7630247174s|372e5964ea853538|41627|rds|local|vector|||0.58||
+viz_tble_dcntr_def|stem|66a7ea4f1081353f|86b15cb7cfd17de0|0b15460a1f9cb7e9|-297303651||t19859.763033341s|fb47242840e54f9d|4397|rds|local|vector|||0.01||
+viz_tble_dcntr_need|stem|88b3e5925a7a1976|0aaf48f39add8159|9431d3dead84d165|197402692||t19859.8107692644s|c3f18f9d3b413516|42703|rds|local|vector|||0.34||
+viz_tble_dcntr_ref|stem|286e1f9c1d22d38a|6bf21e3b9e37ee0f|439e33168256dd13|1228082018||t19859.763032946s|74fcde55c24a16f0|10213|rds|local|vector|||0.06||
+viz_tble_need_anmlgrp|stem|c5837af4457340bc|df68a95eafbfc6cf|77190fb854f34a52|727636261||t19859.8424515587s|f9e8079c9d1acb00|3521|rds|local|vector|||0.57||
+viz_tble_needs_proj_shrt|stem|97561b018e9ab6bc|c696e354285222e8|4d83a11892d594d3|-1945808585||t19859.8348700292s|051ee28e19a665d7|8835|rds|local|vector|||0.31||
+viz_tble_needs_proj_shrt_test|stem|c6dc5d92bc65bde3|3d84fb1689905b11|a614a2a04c7fa455|-1707891409||t19859.9678564228s|93ff487eaf03a4dd|26145|rds|local|vector|||0.3||
+viz_tble_project_summary|stem|ba8691876cb2be3d|e91da98b4616ad75|9dda3a92283acd0f|1443754696||t19859.7630145497s|4f9c98bf1fe9d35f|23460|rds|local|vector|||0.44|Sum of bscol width units is greater than 12|
 viz_viz_unaddressed_needs|stem|f3b0da24a53304ee|b79c79373309055d|fd1c32ed44dcf613|696977009||t19838.7774493034s|2e00e76933143593|2756|rds|local|vector|||0||
