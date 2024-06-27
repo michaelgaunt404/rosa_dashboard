@@ -5,17 +5,19 @@ mk_viz_proj_location_bar_needs = function(data, filter = T){
   temp_data = data %>%
     mutate(location = str_remove_all(location, "[:punct:]") %>%
              strg_pretty_char()) %>%
-    select(location, identified_research_need, count) %>%
-    arrange(location) #%>%
+    select(location, research_category, count, data_gap_analysis_score) %>%
+    arrange(location) %>%
+    filter(data_gap_analysis_score == "Not Addressed")
+
     # filter(location %in% c("Not Specified", "Ma"))
 
   test_1 = temp_data %>%
     count_percent_zscore(
-      grp_c = c("location", "identified_research_need")
+      grp_c = c("location", "research_category")
       ,grp_p = c("location")
       ,col = count, rnd = 4
     ) %>%
-    rename(parent = location, label = identified_research_need)
+    rename(parent = location, label = research_category     )
 
   test_2 =  temp_data %>%
     count_percent_zscore(

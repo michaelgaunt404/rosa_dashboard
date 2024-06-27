@@ -2,12 +2,12 @@ mk_tble_needs_proj_shrt = function(data){
 
   # data = tar_read(data_current_needed)
 
-  tmp_data = data %>%
+    tmp_data = data %>%
     dplyr::select(
-      research_need_id, current_projects, location, research_need_crrnt
+      research_need_id, current_projects, location, research_category_crrnt
       ,animal_group, status_of_research, partner_entities, project_website) %>%
     rename(existing_project_id = current_projects
-           ,research_need = research_need_crrnt) %>%
+           ,research_category_crrnt = research_category_crrnt) %>%
     mutate(research_need_id = strg_numeric_order(research_need_id, rev = F)) %>%
     arrange(research_need_id)
 

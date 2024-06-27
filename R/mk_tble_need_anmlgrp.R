@@ -3,8 +3,8 @@ mk_tble_need_anmlgrp = function(data){
 
   tmp_data = data %>%
     count_percent_zscore(
-      grp_c = c("research_category", "research_need_id", "completeion_status", "animal_group")
-      ,grp_p = c("research_category", "research_need_id", "animal_group")
+      grp_c = c("research_category_crrnt", "research_need_id", "completeion_status", "animal_group")
+      ,grp_p = c("research_category_crrnt", "research_need_id", "animal_group")
       ,col = count, rnd = 2
     ) %>%
     select(!c(percent)) %>%
@@ -23,7 +23,7 @@ mk_tble_need_anmlgrp = function(data){
       ,`needs_%_comp.` = round(needs_completed/needs_total, 2)
     ) %>%
     ungroup() %>%
-    select( "research_need_id", "research_category", "animal_group", "Not Complete"
+    select( "research_need_id", "research_category_crrnt", "animal_group", "Not Complete"
            ,"Complete", "total", "%_comp."
            ,"needs_completed","needs_total", "needs_%_comp.") %>%
     mutate(research_need_id = strg_numeric_order(research_need_id, rev = F)) %>%

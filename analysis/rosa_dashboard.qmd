@@ -8,13 +8,15 @@ format:
 ```{r echo=FALSE, message=FALSE, msg = F, warning = F, error = F}
 library(gauntlet)
 library(magrittr)
+library(targets)
 library(tidyverse, quietly = TRUE)
 
 package_load_q = purrr::quietly(gauntlet::package_load)
 
-tmp = c("tibble", "tidyverse", "magrittr","gauntlet", "targets"
-        ,"bosFunctions"
-        ,"reactable", "reactablefmtr", "crosstalk", "plotly", "bslib","bsicons", "htmltools") %>% 
+tmp = c("tibble", "tidyverse", "magrittr","gauntlet"
+        ,"gauntletReactable", "reactable", "reactablefmtr"
+        ,"crosstalk", "plotly"
+        ,"bslib","bsicons", "htmltools", "shiny") %>% 
   package_load_q()
 ```
 
@@ -45,33 +47,38 @@ font-size: small;
 }
 ```
 
-```{js}
-function filter_default(){
-  document.getElementById("id_tble_project_summary_proj").getElementsByClassName("selectized")[0].selectize.setValue("Ex-1",false)
-}
+<!-- ```{js} -->
+<!-- function filter_default(){ -->
+<!--   document.getElementById("id_tble_project_summary_proj").getElementsByClassName("selectized")[0].selectize.setValue("Ex-1",false) -->
+<!-- } -->
 
-$(document).ready(filter_default);
-```
-
+<!-- $(document).ready(filter_default); -->
+<!-- ``` -->
 
 ```{r}
-tar_load(data_current_pro)
-tar_load(data_needed_pro)
-tar_load(viz_prj_timeline)
-tar_load(viz_proj_location_tree)
-tar_load(viz_proj_location_tree_needs)
-tar_load(viz_tble_agg_addrssd_gap)
-tar_load(viz_tble_crrnt_proj_shrt)
-tar_load(viz_tble_dcntr_acc)
-tar_load(viz_tble_dcntr_current)
-tar_load(viz_tble_dcntr_def)
-tar_load(viz_tble_dcntr_need)
-tar_load(viz_tble_dcntr_ref)
-tar_load(viz_tble_need_anmlgrp)
-tar_load(viz_tble_needs_proj_shrt)
-tar_load(viz_tble_needs_proj_shrt_test)
-tar_load(viz_viz_unaddressed_needs)
-tar_load(viz_tble_project_summary)
+setwd(here::here())
+tar_load_everything()
+
+# tar_load(data_current_pro)
+# tar_load(data_needed_pro)
+# tar_load(viz_prj_timeline)
+# tar_load(viz_proj_location_tree)
+# tar_load(viz_proj_location_tree_needs)
+# tar_load(viz_tble_crrnt_proj_shrt)
+# tar_load(viz_tble_dcntr_acc)
+# tar_load(viz_tble_dcntr_current)
+# tar_load(viz_tble_dcntr_def)
+# tar_load(viz_tble_dcntr_need)
+# tar_load(viz_tble_dcntr_ref)
+# tar_load(viz_tble_needs_proj_shrt_test)
+# tar_load(viz_tble_project_summary)
+# 
+# tar_load(viz_viz_unaddressed_needs)
+# tar_load(viz_tble_need_anmlgrp)
+# tar_load(viz_tble_needs_proj_shrt)
+# tar_load(viz_tble_agg_addrssd_gap)
+
+
 ```
 
 # Welcome Page
@@ -88,35 +95,33 @@ Developed in Partnership by <strong>ROSA</strong>, <strong>Attentive Energy</str
 
 ### Column {width="60%"}
 
-::: card
-<strong>What you can do with this Dashboard</strong><br> With this dashboard, you can easily investigate current projects and identified research needs in the ROSA database, considering various factors such as location, needs type, and more..
+```{r}
+bslib::card(
+  bslib::card_body(
+    shiny::markdown("
+  <strong>Purpose of this Database</strong><br>
+FishFORWRD is a catalog of all East Coast research, monitoring efforts, and stated research needs for offshore wind, fish, and fisheries.
+The objective of FishFORWRD is to increase awareness of ongoing work, avoid duplication of efforts, and create a common understanding of research needs.
+This tool is meant for research funders, fisheries and offshore wind researchers, offshore wind developers, and the public.
 
-<strong>How to use this Dashboard</strong><br> This dashboard is comprised of a number of tabs each with their own purpose and functionality.\
-Each tab contain a number of features that either help you explore page content or visuals which provide information based on user input.\
+<strong>How to use this Dashboard</strong><br>
+This dashboard is comprised of a number of tabs, each with their own purpose and functionality with features to help you explore page content or visuals.
 All tables and plots are interactive and can be manipulated via the mouse.
 
-<strong>Tab Quick Links</strong>
+<strong>Explanation of Tabs</strong>
 
-<strong>[Current Projects](#current-projects)</strong><br>
+<strong>[Current Projects:](#current-projects)</strong> View ongoing projects with high level attributes.
 
--   View ongoing projects with detailed attributes, timelines, and geographical locations.
+<strong>[Research Needs Gap Analysis:](#research-needs)</strong> Identify research gaps and explored unaddressed needs.
 
-<strong>[Research Needs Gap Analysis](#research-needs)</strong><br>
+<strong>[View Database:](#database-center)</strong> Interact with raw data through user-friendly tools and download database directly.
 
--   Identify research gaps, explore unaddressed needs linked to ongoing projects.
+<strong>[Submit Project:](#submit-project)</strong> Submit information to update and improve FishFORWRD.
+")
+  )
+)
+```
 
-<strong>[View Database](#data-center)</strong><br>
-
--   Interact with raw data through user-friendly tools, and download data directly.
-
-<strong>Additional Resources</strong><br>
-
-See the links provided below for additional resources.
-
--   [RWSC Database](https://database.rwsc.org/)
--   [Atlantic Offshore Wind Environmental Research Recommendations](https://tethys.pnnl.gov/atlantic-offshore-wind-environmental-research-recommendations)
--   [Fish FORWRD Data Entry From](https://docs.google.com/forms/d/e/1FAIpQLSeKWFSwyjctrozrUmYmY3Ff4Bc6A-gc-IfqQ7YGSt-hP1oWrw/viewform)
-:::
 
 ### Column {width="15%"}
 
@@ -125,6 +130,7 @@ bslib::value_box(
   title = "Total Project Count"
   ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
   ,value = nrow(data_current_pro)
+  ,full_screen = F
 )
 ```
 
@@ -132,7 +138,8 @@ bslib::value_box(
 bslib::value_box(
   title = "Total Unique Research Categories"
   ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
-  ,value = length(unique(data_current_pro$identified_research_need))
+  ,value = length(unique(data_current_pro$research_category))
+    ,full_screen = F
 )
 ```
 
@@ -141,6 +148,7 @@ bslib::value_box(
   title = "Total Identified Needs"
   ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
   ,value = nrow(data_needed_pro)
+    ,full_screen = F
 )
 ```
 
@@ -152,6 +160,7 @@ bslib::value_box(
   ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
   ,value = (100*round(nrow(data_current_pro[data_current_pro$status_of_research == "Complete", ])/nrow(data_current_pro), 2)) %>%
     paste0(., "%")
+    ,full_screen = F
 )
 ```
 
@@ -159,7 +168,8 @@ bslib::value_box(
 bslib::value_box(
   title = "Total Unique Research \nLocations"
   ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
-  ,value = length(unique(data_current_pro$location_km))
+  ,value = length(unique(data_current_pro$location))
+    ,full_screen = F
 )
 ```
 
@@ -169,6 +179,7 @@ bslib::value_box(
   ,theme = bslib::value_box_theme(bg = "#016FB1", fg = "#e5f0f7")
   ,value = (100*round(nrow(data_needed_pro[data_needed_pro$data_gap_analysis_score == "Not Addressed", ])/nrow(data_needed_pro), 2)) %>%
     paste0(., "%")
+    ,full_screen = F
 )
 ```
 
@@ -200,9 +211,30 @@ viz_proj_location_tree
 
 ```{r}
 #| title: "Project Timelines"
+
+# crosstalk::bscols(
+#   widths = c(12)
 viz_prj_timeline
+#   ,"Note: This plot on displays projects with a valid start and end date."
+# )
 ```
 
+
+# Research Gap Analysis {#research-needs orientation="columns" scrolling="false"}
+
+## Columm_1 {width="60%"}
+
+```{r}
+#| title: "Needs Table"
+viz_tble_needs_proj_shrt_test
+```
+
+## Columm_2 {width="40%"}
+
+```{r}
+#| title: "Needs by Location"
+viz_proj_location_tree_needs
+```
 
 # Explored Research Needs {#explored-research-needs orientation="columns" scrolling="false"}
 
@@ -230,23 +262,7 @@ viz_viz_unaddressed_needs
 viz_tble_agg_addrssd_gap
 ```
 
-# Research Gap Analysis {#research-needs orientation="columns" scrolling="false"}
-
-## Columm_1 {width="60%"}
-
-```{r}
-#| title: "Needs Table"
-viz_tble_needs_proj_shrt_test
-```
-
-## Columm_2 {width="40%"}
-
-```{r}
-#| title: "Needs by Location"
-viz_proj_location_tree_needs
-```
-
-# Data Center {#data-center}
+# Database Center {#database-center}
 
 ##  {.tabset}
 
@@ -280,35 +296,32 @@ viz_tble_dcntr_def
 viz_tble_dcntr_ref
 ```
 
-##  {-}
-
-# Project Summary {#project-smmry orientation="columns" scrolling="false"}
-
-```{r}
-viz_tble_project_summary
-```
+##  {.unnumbered}
 
 # Submit Project {#submit-project orientation="columns" scrolling="true"}
 
 ```{r}
-bslib::layout_columns(col_widths = 8
-               ,bslib::card(
-                 # bslib::card_header(
-                 #   class = "bg-dark"
-                 #   ,"Test"
-                 # )
-                 bslib::card_body(
-shiny::markdown("This is a place holder tab.
+bslib::layout_columns(
+  col_widths = 8
+  ,bslib::card(
+    bslib::card_body(
+      shiny::markdown("
+<strong>Submit Information to the FishFORWRD Database</strong><br>
+Use the following links to send project information, research needs, or corrections.    
+We will QA/QC your submission and add it to the public version of the database.<br>
 
-<strong>Amet facilisis magna etiam</strong><br> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Faucibus turpis in eu mi bibendum neque. Scelerisque eu ultrices vitae auctor eu augue. Libero volutpat sed cras ornare arcu dui vivamus arcu. Mattis pellentesque id nibh tortor.
+[Placeholder Link for Project Submission](http://google.com/)  
+[Placeholder Link for Research Needs Submission](http://google.com/)  
+[Placeholder Link for Corrections](http://google.com/)  
 
-<strong>Tab Quick Links</strong>
+<strong>Additional Resources</strong><br>
+See the links provided below for additional resources.    
 
-<strong>[Link to submission form](https://google.com/)</strong>")
-)))
+[RWSC Offshore Wind and Wildlife Research Database](https://database.rwsc.org/)  
+[Tethys Knowledge Base for Fish](https://tethys.pnnl.gov/knowledge-base-wind-energy?f%5B0%5D=receptor%3A280)  
+[NYSERDA Mitigation Practices Database Tool](https://www.nyetwg.com/mpd-tool)  
+")
+    )
+  )
+)
 ```
-
-
-
-
-

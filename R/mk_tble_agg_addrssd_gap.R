@@ -3,8 +3,8 @@ mk_tble_agg_addrssd_gap = function(data){
 
   temp_data = data %>%
     mutate(Total = pmap_dbl(select(., !contains("research")), sum) %>%
-             as.integer()) %>%
-    rename(research_need = identified_research_need)
+             as.integer()) #%>%
+    # rename(research_need = research_category)
     # rename_with(pretty_char)
 
   temp_table = reactable(

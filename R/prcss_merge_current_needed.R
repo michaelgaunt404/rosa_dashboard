@@ -4,7 +4,7 @@ prcss_merge_current_needed = function(projects_needed
     # projects_current = tar_read(data_current_pro)
 
     projects_linked = projects_needed %>%
-      dplyr::select(research_category, research_need_id_number, identified_research_need
+      dplyr::select(research_category, research_need_id_number, research_category
              ,existing_project_addressing_need_id_number) %>%
       mutate(existing_project_addressing_need_id_number =
                str_replace_all(existing_project_addressing_need_id_number, ";", ",")) %>%
@@ -14,9 +14,10 @@ prcss_merge_current_needed = function(projects_needed
                    ,values_transform = list(projects = str_trim)
                    ,values_to = "projects") %>%
       rename(current_projects = projects
-             ,research_need = identified_research_need
+             ,research_need = research_category
              ,research_need_id = research_need_id_number) %>%
-      dplyr::select(research_need_id, research_need, research_category
+      dplyr::select(research_need_id#, research_need
+                    ,research_need
                     ,current_projects
                     ,!c(name)) %>%
       na.omit() %>%
@@ -24,7 +25,7 @@ prcss_merge_current_needed = function(projects_needed
       merge(., projects_current %>%
               dplyr::select(research_project_id_number
                      # ,research_category_crrnt = research_category
-                     ,research_need_crrnt = identified_research_need
+                     ,research_category_crrnt = research_category
                      ,location, partner_entities, animal_group, status_of_research, project_website)
             ,by.x = "current_projects"
             ,by.y = "research_project_id_number"

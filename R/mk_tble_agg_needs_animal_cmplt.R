@@ -4,7 +4,7 @@ mk_tble_agg_needs_animal_cmplt = function(data){
 
   temp_data = data %>%
     count_percent_zscore(
-      grp_c = c("research_need_id", "research_need", "research_need_crrnt")
+      grp_c = c("research_need_id", "research_need", "research_category_crrnt")
       ,grp_p = c("research_need_id", "research_need")
       ,col = count
       ,rnd = 2
@@ -12,7 +12,7 @@ mk_tble_agg_needs_animal_cmplt = function(data){
     group_by(research_need_id) %>%
     mutate(total_projects = sum(count)) %>% ungroup() %>%
     select(!c(count)) %>%
-    pivot_wider(names_from = research_need_crrnt, values_from = percent)  %>%
+    pivot_wider(names_from = research_category_crrnt, values_from = percent)  %>%
     rename_with(gauntlet::strg_pretty_char)
 
   temp_data = temp_data %>%

@@ -7,7 +7,13 @@ mk_tble_dcntr_current = function(data){
   rename_with(~str_remove(.x, "_mg") %>%
                 str_remove("_km")) %>%
   mutate(research_project_id_number  = strg_numeric_order(research_project_id_number , rev = F)) %>%
-  arrange(research_project_id_number )
+  arrange(research_project_id_number ) %>%
+    select(research_project_id_number, project_title, research_category
+  ,methodology, animal_group, location, fixed_or_floating
+  ,windfarm_development_stage, spatial_scale, project_funding_source
+  ,partner_entities, pi_name, project_website
+  ,project_start_year
+  ,project_end_year)
 
 id = "current_projects"
 temp_table = reactable(
@@ -15,10 +21,10 @@ temp_table = reactable(
   ,columns = combined_named_lists(
     colDef_sticky(col = "research_project_id_number", side = "left")
     ,colDef_urlLink(cols = rtrn_cols(tmp_data, "_website"), link_text = "Link to site")
-    ,colDef_mailto(
-      cols = rtrn_cols(tmp_data, "pi_name")
-      ,col_email = rtrn_cols(tmp_data, "pi_contact_info")
-      ,data = tmp_data)
+    # ,colDef_mailto(
+    #   cols = rtrn_cols(tmp_data, "pi_name")
+    #   ,col_email = rtrn_cols(tmp_data, "pi_contact_info")
+    #   ,data = tmp_data)
     ,colDef_colWidth_robust(
       cols = rtrn_cols(tmp_data, "project_objectives|notes|methodology"), minWidth = 600)
     ,colDef_colWidth_robust(

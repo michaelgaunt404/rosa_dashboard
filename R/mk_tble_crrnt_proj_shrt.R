@@ -3,16 +3,14 @@ mk_tble_crrnt_proj_shrt = function(data){
   # data = tar_read(data_current_pro)
 
   tmp_data = data %>%
-    #original
-    # dplyr::select(research_project_id_number, project_title, research_category, identified_research_need,partner_entities, temporal_scale_of_project)
-    #new
     dplyr::select(research_project_id_number
                   ,project_title
-                  ,animal_group
+                  ,research_category
                   ,location
-                  ,status_of_research
-                  ,pi_name
-                  ,pi_contact_info
+                  ,partner_entities
+                  ,project_funding_source
+                  # ,pi_name
+                  # ,pi_contact_info
                   ,project_website
     ) %>%
     rename_with(~str_remove(.x, "_mg")) %>%
@@ -28,7 +26,7 @@ mk_tble_crrnt_proj_shrt = function(data){
       ,colDef_sticky(cols = "research_project_id_number")
       ,colDef_colWidth_robust(cols = rtrn_cols(tmp_data, "itle"), minWidth = 250)
       # ,colDef_minwidth(cols = rtrn_cols(tmp_data, "Research Need"), width = 110)
-      ,colDef_mailto(cols = "pi_name", col_email = "pi_contact_info", tmp_data)
+      # ,colDef_mailto(cols = "pi_name", col_email = "pi_contact_info", tmp_data)
       ,colDef_urlLink_spec(cols = "research_project_id_number", col_url = "project_website", tmp_data)
       ,colDef_filter_select(cols = rtrn_cols(tmp_data, words = "title", exclude = T), id = id)
     ), wrap = T, elementId = id

@@ -1,5 +1,5 @@
 mk_viz_unaddressed_needs = function(data){
-  # data = tar_read(data_needProj_gap)
+  data = tar_read(data_needProj_gap)
 
   temp_zz = data %>%
     count_percent_zscore(
